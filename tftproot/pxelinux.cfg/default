@@ -24,7 +24,7 @@ label chef-squeeze
       append auto=true priority=critical vga=788 initrd=debian/squeeze-amd64/initrd.gz languagechooser/language-name=English countrychooser/shortlist=US consol-keymaps-at/keymap=en netcfg/get_hostname=chef-server preseed/url=tftp://192.168.122.2/debian/squeeze-amd64/preseed-chef-server.txt
 
 label chef-pxe
-      menu label Debian 6.0 (^Squeeze) Chef Server
+      menu label Debian 6.0 (^Squeeze) PXE Server
       kernel debian/squeeze-amd64/linux
       append auto=true priority=critical vga=788 initrd=debian/squeeze-amd64/initrd.gz languagechooser/language-name=English countrychooser/shortlist=US consol-keymaps-at/keymap=en netcfg/get_hostname=pxe-server preseed/url=tftp://192.168.122.2/debian/squeeze-amd64/preseed-pxe-server.txt
 

@@ -24,7 +24,7 @@ fi
 
 apt-get install -y syslinux dnsmasq syslinux-common
 
-SERVER_IP=`/sbin/ifconfig br0 | grep "inet" | cut -d ':' -f2 | cut -d ' ' -f1`
+SERVER_IP=`/sbin/ifconfig eth0 | grep "inet" | cut -d ':' -f2 | cut -d ' ' -f1`
 GATEWAY_IP=`/sbin/route -n | grep "^0" | awk '{ print $2 }'`
 
 cat > /etc/dnsmasq.conf <<EOF
@@ -39,6 +39,7 @@ enable-tftp
 tftp-root=/srv/tftproot
 EOF
 
+mkdir -p /srv/tftproot
 
 cp /usr/lib/syslinux/chain.c32 /usr/lib/syslinux/menu.c32 /usr/lib/syslinux/pxelinux.0 /srv/tftproot
 
@@ -72,7 +73,7 @@ for distro in ${DEBIAN_DISTROS}; do
 	cat >> /srv/tftproot/pxelinux.cfg/default <<EOF
 label ${distro}-${arch}
   menu label Debian ${distro} (${arch}) installer
-  kernel ${debian}/${distro}-${arch}/linux
+  kernel debian/${distro}-${arch}/linux
   append auto=true priority=critical vga=788 initrd=debian/${distro}-${arch}/initrd.gz languagechooser/language-name=English countrychooser/shortlist=US consol-keymaps-at/keymap=en preseed/url=tftp://${SERVER_IP}/debian/${distro}-${arch}/preseed.txt
 
 EOF
@@ -86,6 +87,15 @@ for distro in ${UBUNTU_DISTROS}; do
 	wget http://mirrors.kernel.org/ubuntu/dists/${distro}/main/installer-${arch}/current/images/netboot/ubuntu-installer/${arch}/initrd.gz -O /srv/tftproot/ubuntu/${distro}-${arch}/initrd.gz
 
 	wget http://mirrors.kernel.org/ubuntu/dists/${distro}/main/installer-${arch}/current/images/netboot/ubuntu-installer/${arch}/linux -O /srv/tftproot/ubuntu/${distro}-${arch}/linux
+
+	cat >> /srv/tftproot/pxelinux.cfg/default <<EOF
+label ${distro}-${arch}
+  menu label Ubuntu ${distro} (${arch}) installer
+  kernel ubuntu/${distro}-${arch}/linux
+  append auto=true priority=critical vga=788 initrd=ubuntu/${distro}-${arch}/initrd.gz languagechooser/language-name=English countrychooser/shortlist=US consol-keymaps-at/keymap=en preseed/url=tftp://${SERVER_IP}/ubuntu/${distro}-${arch}/preseed.txt
+
+EOF
+
     done
 done
 
