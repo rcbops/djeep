@@ -1,0 +1,5 @@
+*.c32
+initrd.gz
+linux
+*~
+pxelinux.0
