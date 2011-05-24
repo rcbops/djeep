@@ -1,6 +1,6 @@
 This repository contains tools for bootstrapping a cloud from bare metal.
 
-The workflow is as follows:
+# Overview
 
 0. Set up chef server
 1. Launch the webservice for collecting hardware information
