@@ -34,4 +34,6 @@ knife configure -i -y --defaults -r='' -u openstack
 cd /root; git clone https://github.com/openstack/openstack-cookbooks.git
 knife cookbook upload -o /root/openstack-cookbooks/cookbooks -a
 
+curl -H "content-type: application/octet-stream" -XPOST --data-binary @/etc/chef/validation.pem http://192.168.122.2:5000/chef_key
+
 exit 0
