@@ -26,7 +26,7 @@ def form():
 
 @app.route('/chef_key', methods=['POST'])
 # curl -H "Content-type: application/octet-stream" -XPOST --data-binary \
-#     @key.file <url>
+#     @key.file http://<server>:<port>/chef_key
 def post_chef_key():
     key = flask.request.data
 
@@ -43,15 +43,29 @@ def post_chef_key():
     return 'add/update chef key\n'
 
 @app.route('/chef_key', methods=['GET'])
+# curl -skS -o validation.pem http://<server>:<port>/chef_key
 def get_chef_key():
-    tv = models.TemplateVars.query.filter(models.TemplateVars.key == 'chef_key').first()
-    response = app.make_response('')
-
-    if tv is None:
-        response.status_code = 404
-        response.data = "Error:  No chef key present\n"
-    else:
-        response.data = tv.value
-
+    tv = models.TemplateVars.query.filter(models.TemplateVars.key == 'chef_key').first_or_404()
+    response.data = tv.value
     return response
 
+@app.route('/preseed/<host_id>', methods=['GET'])
+def generate_preseed(host_id):
+    # we should pull dist and arch from the host info, as
+    # we needed it to write out the pxelinux.cfg template
+    #
+    # hardware info should really be host info
+    hw = models.HardwareInfo.query.get_or_404(host_id)
+    
+    host_dist = "maverick"
+    host_arch = "amd64"
+
+    kvpairs = models.TemplateVars.query.all()
+    site = dict(zip([x.key for x in kvpairs], [x.value for x in kvpairs]))
+
+    template_file = "preseed/%s-%s-preseed.txt" % (host_dist, host_arch)
+    return flask.render_template(template_file, host=hw, site=site)
+    
+
+    
+    
