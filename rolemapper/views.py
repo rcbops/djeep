@@ -23,3 +23,35 @@ def create():
 @app.route('/form', methods=['GET'])
 def form():
     return flask.render_template('form.html', postback=flask.url_for('create'))
+
+@app.route('/chef_key', methods=['POST'])
+# curl -H "Content-type: application/octet-stream" -XPOST --data-binary \
+#     @key.file <url>
+def post_chef_key():
+    key = flask.request.data
+
+    tv = models.TemplateVars.query.filter(models.TemplateVars.key == 'chef_key').first()
+    if tv == None:
+        tv = models.TemplateVars()
+        tv.key = 'chef_key'
+        tv.value = key
+    else:
+        tv.value = key
+
+    rv = models.commit(tv)
+
+    return 'add/update chef key\n'
+
+@app.route('/chef_key', methods=['GET'])
+def get_chef_key():
+    tv = models.TemplateVars.query.filter(models.TemplateVars.key == 'chef_key').first()
+    response = app.make_response('')
+
+    if tv is None:
+        response.status_code = 404
+        response.data = "Error:  No chef key present\n"
+    else:
+        response.data = tv.value
+
+    return response
+
