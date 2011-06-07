@@ -10,7 +10,7 @@ def hello():
     return '<br/>'.join([x.mac_address for x in hw])
 
 
-@app.route('/', methods=['POST'])
+@app.route('/hardware', methods=['POST'])
 def create():
     req = flask.request
     hw = models.HardwareInfo()
@@ -18,7 +18,6 @@ def create():
     hw.hardware_info = req.form['hardware_info']
     rv = models.commit(hw)
     return 'create: %r // %r' % (hw, rv)
-
 
 @app.route('/form', methods=['GET'])
 def form():
@@ -30,7 +29,9 @@ def form():
 def post_chef_key():
     key = flask.request.data
 
-    tv = models.TemplateVars.query.filter(models.TemplateVars.key == 'chef_key').first()
+    tv = models.TemplateVars.query.filter(
+            models.TemplateVars.key == 'chef_key').first()
+
     if tv == None:
         tv = models.TemplateVars()
         tv.key = 'chef_key'
@@ -45,7 +46,9 @@ def post_chef_key():
 @app.route('/chef_key', methods=['GET'])
 # curl -skS -o validation.pem http://<server>:<port>/chef_key
 def get_chef_key():
-    tv = models.TemplateVars.query.filter(models.TemplateVars.key == 'chef_key').first_or_404()
+    tv = models.TemplateVars.query.filter(
+            models.TemplateVars.key == 'chef_key').first_or_404()
+
     response.data = tv.value
     return response
 

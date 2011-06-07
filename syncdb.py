@@ -13,7 +13,8 @@ default_kvs = {
 }
 
 for key in default_kvs:
-    if models.TemplateVars.query.filter(models.TemplateVars.key == key).first() is None:
+    if models.TemplateVars.query.filter(
+            models.TemplateVars.key == key).first() is None:
         models.commit(models.TemplateVars(key=key, value=default_kvs[key]))
 
 if models.HardwareInfo.query.first() is None:
