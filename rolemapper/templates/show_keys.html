@@ -1,0 +1,27 @@
+{% include "header.html" %}
+<table>
+  <tr>
+    <th>&nbsp;</th>
+    <th>Key</th>
+    <th>Value</th>
+  </tr>
+{% for item in site %}
+  <tr>
+    <td>
+      <a href="{{ url_for('html_delete_key', key=item) }}">
+        <img src="{{ url_for('static',filename='edit-delete.png') }}">
+      </a>
+      <a href="{{ url_for('html_edit_key', key=item) }}">
+        <img src="{{ url_for('static',filename='edit.png') }}">
+      </a>
+    </td>
+    <td>{{ item }}</td>
+    <td>{{ site[item] }}</td>
+  </tr>
+{% endfor %}
+</table>
+<br/>
+<a href="{{ url_for('html_add_key') }}">
+  <img src="{{ url_for('static', filename='add.png') }}">
+</a>
+{% include "footer.html" %}
