@@ -13,10 +13,10 @@
 {% for item in hw %}
   <tr>
     <td>
-      <a href="{{ url_for('html_delete_key', key=item) }}">
+      <a href="{{ url_for('html_delete_hardware', id=item.id) }}">
         <img src="{{ url_for('static',filename='edit-delete.png') }}">
       </a>
-      <a href="{{ url_for('html_edit_key', key=item) }}">
+      <a href="{{ url_for('html_edit_hardware', id=item.id) }}">
         <img src="{{ url_for('static',filename='edit.png') }}">
       </a>
     </td>
@@ -31,7 +31,7 @@
 {% endfor %}
 </table>
 <br/>
-<a href="{{ url_for('html_add_key') }}">
+<a href="{{ url_for('html_add_hardware') }}">
   <img src="{{ url_for('static', filename='add.png') }}">
 </a>
 {% include 'footer.html' %}

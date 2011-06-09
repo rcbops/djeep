@@ -1,0 +1,28 @@
+{% include "header.html" %}
+
+<form action="{{ postback }}" method="post">
+  MAC Address: <input type="text" 
+		      name="mac_address" 
+		      value="{{ info.mac_address }}" /><br/>
+  HW Desc: <textarea name="hardware_info">
+    {{ info.hardware_info }}
+  </textarea><br/>
+  IP Address: <input type="text" 
+		     name="ip_address" 
+		     value="{{ info.ip_address }}" /><br/>
+  Netmask: <input type="text" 
+		  name="netmask" 
+		  value="{{ info.netmask }}" /><br/>
+  Gateway: <input type="text" 
+		  name="gateway"
+		  value="{{ info.gateway }}" /><br/>
+  Hostname: <input type="text" 
+		   name="hostname"
+		   value="{{ info.hostname }}" /><br/>
+  Chef Role: <input type="text" 
+		    name="chef_role"
+		    value="{{ info.chef_role }}" /><br/>
+  <input type="submit" />
+</form>
+
+{% include "footer.html" %}

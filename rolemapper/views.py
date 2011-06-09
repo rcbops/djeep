@@ -14,19 +14,56 @@ def html_show_hardware():
     return flask.render_template('show_hardware.html', hw=hw)
 
 @app.route('/hardware', methods=['POST'])
-def create():
+def html_update_hwinfo():
+    return html_post_edit_hardware(-1)
+
+@app.route('/hardware/<id>', methods=['POST'])
+def html_post_edit_hardware(id):
     req = flask.request
-    hw = models.HardwareInfo()
-    hw.mac_address = req.form['mac_address']
-    hw.hardware_info = req.form['hardware_info']
+    hw = models.HardwareInfo.query.get(id)
+    if hw is None:
+        hw = models.HardwareInfo()
+
+    for key in req.form:
+        setattr(hw,key,req.form[key])
+
     rv = models.commit(hw)
-    return 'create: %r // %r' % (hw, rv)
+    return flask.redirect(flask.url_for('html_show_hardware'))
 
-@app.route('/form', methods=['GET'])
-def form():
-    return flask.render_template('form.html',
-                                 postback=flask.url_for('create'))
+@app.route('/hardware/edit/<id>', methods=['GET'])
+def html_edit_hardware(id):
+    info = models.HardwareInfo.query.get_or_404(id)
+    return flask.render_template(
+            'edit_hardware.html',
+            postback=flask.url_for('html_post_edit_hardware', id=id),
+            info = info)
 
+@app.route('/hardware/add', methods=['GET'])
+def html_add_hardware():
+    info = { 'id': '0',
+             'mac_address': '',
+             'ip_address': '',
+             'netmask': '',
+             'gateway': '',
+             'hostname': '',
+             'chef_role': '' }
+             
+    return flask.render_template(
+            'edit_hardware.html',
+            postback=flask.url_for('html_post_edit_hardware',id=0),
+            info = info)
+
+
+@app.route('/hardware/delete/<id>', methods=['GET'])
+def html_delete_hardware(id):
+    tv = models.HardwareInfo.query.get_or_404(id)
+
+    db.session.delete(tv)
+    db.session.commit()
+
+    flask.flash('deleted')
+    return flask.redirect(flask.url_for('html_show_hardware'));
+    
 @app.route('/chef_key', methods=['POST'])
 # curl -H "Content-type: application/octet-stream" -XPOST --data-binary \
 #     @key.file http://<server>:<port>/chef_key
@@ -44,7 +81,6 @@ def post_chef_key():
         tv.value = key
 
     rv = models.commit(tv)
-
     return 'add/update chef key\n'
 
 @app.route('/chef_key', methods=['GET'])
