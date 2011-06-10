@@ -3,6 +3,7 @@ import flask
 from rolemapper import app, db
 from rolemapper import models
 from formalchemy import FieldSet
+from jinja2 import TemplateNotFound
 
 @app.route('/', methods=['GET'])
 def html_default():
@@ -98,6 +99,9 @@ def get_chef_key():
 
 @app.route('/template/<template_type>/<host_id>', methods=['GET'])
 def generate_template(template_type, host_id):
+    if template_type not in ['preseed', 'post_script']:
+        flask.abort(404)
+        
     hw = models.HardwareInfo.query.get_or_404(host_id)
     kvpairs = models.TemplateVars.query.all()
     site = dict(zip([x.key for x in kvpairs], [x.value for x in kvpairs]))
@@ -106,17 +110,11 @@ def generate_template(template_type, host_id):
     #  * preseed
     #  * post_script
 
-    template_file = '%s/%s' % (template_type,)
-    return flask.render_template(template_file, host=hw, site=site)
+    template_file = hw.kick_target.__getattribute__(template_type)
 
-# FIXME: this needs to pull the boot script out of the target
-@app.route('/post-script/<host_id>', methods=['GET'])
-def generate_post_script(host_id):
-    hw = models.HardwareInfo.query.get_or_404(host_id)
-    kvpairs = models.TemplateVars.query.all()
-    site = dict(zip([x.key for x in kvpairs], [x.value for x in kvpairs]))
+    try:
+        return flask.render_template(template_file, host=hw, site=site)
+    except TemplateNotFound:
+        flask.abort(404)
+        
 
-    template_file = 'post-scripts/chef.sh'
-    
-    return flask.render_template(template_file, host=hw, site=site)
-    
