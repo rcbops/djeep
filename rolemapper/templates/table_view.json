@@ -1,0 +1,11 @@
+{
+"{{ info.obj }}": [
+    {% for object in info.objects %}
+    {
+      {% for field_name in info.field_names %}
+      "{{ field_name }}": "{{ object[field_name] }}",
+      {% endfor %}
+    },
+    {% endfor %}
+  ]
+}

@@ -21,8 +21,12 @@ def html_object_grid(obj):
     info['key'] = obj_class.__table__.primary_key.columns.keys()[0]
     info['objects'] = obj_class.query.all()
     info['obj']  = obj
-    
-    return flask.render_template('table_grid.html', info=info)
+
+    template = 'table_view.html'
+    if 'application/json' in flask.request.accept_mimetypes:
+        template = 'table_view.json'
+
+    return flask.render_template(template, info=info)
 
 @app.route('/admin/<obj>/new', methods=['GET', 'POST'])
 def html_object_new(obj):
@@ -53,7 +57,7 @@ def html_object_edit(obj, key):
     info['field_names'] = obj_class.__table__.columns.keys()
     info['key'] = obj_class.__table__.primary_key.columns.keys()[0]
     info['obj']  = obj
-    
+
     if key and obj_class.query.get(key):
         info['object'] = obj_class.query.get(key)
         info['fields'] = FieldSet(info['object'])
@@ -61,6 +65,7 @@ def html_object_edit(obj, key):
         info['object'] = obj_class()
         info['fields'] = FieldSet(obj_class, session=db.session)
 
+    retval = ""
     if flask.request.method == 'POST':
         # This is the postback
         if flask.request.content_type == 'application/json':
@@ -76,11 +81,11 @@ def html_object_edit(obj, key):
             if fields.validate():
                 fields.sync()
 
+            retval = flask.redirect(flask.url_for('html_object_grid',
+                                                  obj = obj))
         models.commit(info['object'])
-        # perform object updates
-        return flask.redirect(flask.url_for('html_object_grid',
-                                                obj = obj))
-
+        return retval
+    
     info['form_data'] = info['fields'].render()
     return flask.render_template('table_edit.html', info=info)
 
