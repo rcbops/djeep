@@ -18,6 +18,14 @@ iface eth0 inet dhcp
 EOF
 echo discovery > discovery/etc/hostname
 chroot discovery bash -c "echo root:$(cat rootpass.txt)|chpasswd"
+wget https://raw.github.com/rpedde/os-kick/master/discover.py -o discovery/usr/bin
+chmod 755 discovery/usr/bin/discover.py
+cat << EOF > discovery/etc/rc.local
+#!/bin/sh -e
+/usr/bin/discover.py
+exit 0
+EOF
+
 cd discovery
 find . | cpio -H newc -o > ../rootfs
 cd ..
