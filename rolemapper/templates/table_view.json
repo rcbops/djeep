@@ -3,7 +3,11 @@
     {% for object in info.objects %}
     {
       {% for field_name in info.field_names %}
-      "{{ field_name }}": "{{ object[field_name] }}",
+        {% if field_name != 'hardware_info' %}
+          "{{ field_name }}": "{{ object[field_name] }}",
+        {% else %}
+          "{{ field_name }}": {{ object[field_name] }},
+        {% endif %}
       {% endfor %}
     },
     {% endfor %}
