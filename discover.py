@@ -10,17 +10,22 @@ try:
 except ImportError:
     import simplejson as json
 
-cmdline_file = "/home/will/Scratch/cmdline"
-dsc_base = "http://localhost:5000"
+hardware_cmd = ["/usr/bin/lshw", "-json"]
+cmdline_file = "/proc/cmdline"
+
+hardware_info = subprocess.check_output(hardware_cmd, stderr=subprocess.PIPE)
+args = [ x.split("=",1) for x in 
+    open(cmdline_file, "r").readline().strip().split()
+    if x.find("=") > 0 ]
+
+kv = {}
+for k,v in args:
+    kv[k] = v
+mac_address = kv['macaddr']
+dsc_base = kv['url']
 dsc_hw_new = dsc_base + "/admin/hardware/new"
 dsc_hw_list = dsc_base + "/admin/hardware/view"
 dsc_hw_edit= dsc_base + "/admin/hardware/edit/{0}"
-hardware_cmd = ["/usr/bin/lshw", "-json"]
-
-hardware_info = subprocess.check_output(hardware_cmd, stderr=subprocess.PIPE)
-mac_address = [ x.split("=")[1] for x in 
-    open(cmdline_file, "r").readline().strip().split()
-    if x.find("macaddr=") == 0 ][0]
 
 data = json.dumps(dict(mac_address=mac_address, 
                        hardware_info=hardware_info))
