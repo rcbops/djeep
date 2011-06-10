@@ -1,0 +1,33 @@
+{% include 'header.html' %}
+
+<table>
+  <tr>
+    <th>&nbsp;</th>
+    {% for field_name in info.field_names %}
+    <th>{{ field_name.title() }}</th>
+    {% endfor %}
+  </tr>
+
+  {% for object in info.objects %}
+  <tr>
+    <td>
+      <a href="{{ url_for('html_object_delete', obj=info.obj, key=object[info.key]) }}">
+        <!-- <img src="{{ url_for('static',filename='edit-delete.png') }}"> -->
+	Del
+
+      </a>
+      &nbsp;
+      <a href="{{ url_for('html_object_edit', obj=info.obj, key=object[info.key]) }}">
+        <!-- <img src="{{ url_for('static',filename='edit.png') }}"> -->
+	Edit
+      </a>
+    </td>
+    {% for field_name in info.field_names %}
+    <td>{{ object[field_name] }}
+    {% endfor %}
+  </tr>
+  {% endfor %}
+</table>
+
+<a href="{{ url_for('html_object_new', obj=info.obj) }}">Add</a>
+{% include 'footer.html' %}
