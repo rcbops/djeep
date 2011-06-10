@@ -32,7 +32,6 @@ def html_object_grid(obj):
             for field in info['field_names']:
                 out_obj[field] = getattr(response_object,field)
             output['hardware'].append(out_obj)
-            
         return json.dumps(output)
 
     return flask.render_template(template, info=info)

@@ -36,6 +36,7 @@ class KickTargets(db.Model):
 def commit(*models):
     for m in models:
         db.session.add(m)
+    db.session.autocommit = True
     db.session.commit()
 
 ModelList = {
