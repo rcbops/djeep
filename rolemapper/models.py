@@ -2,8 +2,8 @@ from rolemapper import db
 
 class TemplateVars(db.Model):
     __tablename__ = 'template_vars'
-#    id = db.Column(db.Integer, primary_key=True)
-    key = db.Column(db.String(80), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    key = db.Column(db.String(80), unique=True)
     value = db.Column(db.Text())
 
 class HardwareInfo(db.Model):

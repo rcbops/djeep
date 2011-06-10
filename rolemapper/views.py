@@ -30,7 +30,17 @@ def html_object_new(obj):
 
 @app.route('/admin/<obj>/delete/<key>', methods=['GET'])
 def html_object_delete(obj, key):
-    pass
+    if not obj in models.ModelList.keys():
+        flask.abort(404)
+
+    obj_class = models.ModelList[obj]
+    o = obj_class.query.get_or_404(key)
+
+    db.session.delete(o)
+    db.session.commit()
+    
+    return flask.redirect(flask.url_for('html_object_grid',
+                                        obj = obj))
 
 @app.route('/admin/<obj>/edit/<key>', methods=['GET', 'POST'])
 def html_object_edit(obj, key):
@@ -44,29 +54,34 @@ def html_object_edit(obj, key):
     info['key'] = obj_class.__table__.primary_key.columns.keys()[0]
     info['obj']  = obj
     
-    if key:
+    if key and obj_class.query.get(key):
         info['object'] = obj_class.query.get(key)
         info['fields'] = FieldSet(info['object'])
     else:
         info['object'] = obj_class()
         info['fields'] = FieldSet(obj_class, session=db.session)
 
-    if info['key'] != 'id':
-        info['fields'].configure(pk = True)
-    
-        
-    info['form_data'] = info['fields'].render()
-
     if flask.request.method == 'POST':
         # This is the postback
-        callback_info = dict(flask.request.form.items())
-        fields = FieldSet(info['object'], data = callback_info)
-        if fields.validate():
-            fields.sync()
-            models.commit(info['object'])
-            return flask.redirect(flask.url_for('html_object_grid',
+        if flask.request.content_type == 'application/json':
+            payload = flask.request.json
+
+            for key in payload.keys():
+                info['object'].__setattr__(key, payload[key])
+
+        else:
+            callback_info = dict(flask.request.form.items())
+            fields = FieldSet(info['object'], data = callback_info)
+            
+            if fields.validate():
+                fields.sync()
+
+        models.commit(info['object'])
+        # perform object updates
+        return flask.redirect(flask.url_for('html_object_grid',
                                                 obj = obj))
 
+    info['form_data'] = info['fields'].render()
     return flask.render_template('table_edit.html', info=info)
 
 # we can get rid of this, I think
