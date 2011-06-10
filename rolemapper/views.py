@@ -49,7 +49,7 @@ def html_object_delete(obj, key):
     o = obj_class.query.get_or_404(key)
 
     db.session.delete(o)
-    db.session.commit()
+    db.session.flush()
     
     return flask.redirect(flask.url_for('html_object_grid',
                                         obj = obj))
