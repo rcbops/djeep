@@ -5,6 +5,8 @@ from rolemapper import models
 from formalchemy import FieldSet
 from jinja2 import TemplateNotFound
 
+import json
+
 @app.route('/', methods=['GET'])
 def html_default():
     return flask.render_template('default.html', models=models.ModelList)
@@ -24,7 +26,14 @@ def html_object_grid(obj):
 
     template = 'table_view.html'
     if 'application/json' in flask.request.accept_mimetypes:
-        template = 'table_view.json'
+        output = { 'hardware': [] }
+        for response_object in info['objects']:
+            out_obj = {}
+            for field in info['field_names']:
+                out_obj[field] = getattr(response_object,field)
+            output['hardware'].append(out_obj)
+            
+        return json.dumps(output)
 
     return flask.render_template(template, info=info)
 
