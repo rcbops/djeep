@@ -46,10 +46,11 @@ def html_object_edit(obj, key):
     
     if key:
         info['object'] = obj_class.query.get(key)
+        info['fields'] = FieldSet(info['object'])
     else:
         info['object'] = obj_class()
+        info['fields'] = FieldSet(obj_class, session=db.session)
 
-    info['fields'] = FieldSet(info['object'])
     if info['key'] != 'id':
         info['fields'].configure(pk = True)
     
