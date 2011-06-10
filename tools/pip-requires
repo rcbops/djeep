@@ -1,2 +1,6 @@
 flask
+# sqlalchemy 0.7.0 renames sqlalchemy.exceptions to sqlalchemy.exc, breaking formalchemy
+sqlalchemy < 0.7.0
 flask-sqlalchemy
+formalchemy
+

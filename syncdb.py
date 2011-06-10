@@ -24,4 +24,34 @@ if models.HardwareInfo.query.first() is None:
                                       netmask = '255.255.255.0',
                                       gateway = '192.168.122.1',
                                       hostname = 'host-n01',
+                                      kick_id = 1,
                                       chef_role = 'chef_server'))
+
+if models.KickTargets.query.first() is None:
+    models.commit(models.KickTargets(name = 'Boot to HDD',
+                                     pxeconfig = 'hdd',
+                                     kernel = '',
+                                     initrd = '',
+                                     preseed = '',
+                                     post_script = ''))
+
+    models.commit(models.KickTargets(name = 'Defaults (Ubuntu 10.10 amd64)',
+                                     pxeconfig = 'ubuntu',
+                                     kernel = 'ubuntu/maverick-amd64/linux',
+                                     initrd = 'ubuntu/maverick-amd64/initrd.gz',
+                                     preseed = 'maverick-amd64-preseed.txt',
+                                     post_script = ''))
+
+    models.commit(models.KickTargets(name = 'Chef Server (Ubuntu 10.10 amd64)',
+                                     pxeconfig = 'ubuntu',
+                                     kernel = 'ubuntu/maverick-amd64/linux',
+                                     initrd = 'ubuntu/maverick-amd64/initrd.gz',
+                                     preseed = 'maverick-amd64-preseed.txt',
+                                     post_script = 'chef-server.sh'))
+                  
+    models.commit(models.KickTargets(name = 'Chef Client (Ubuntu 10.10 amd64)',
+                                     pxeconfig = 'ubuntu',
+                                     kernel = 'ubuntu/maverick-amd64/linux',
+                                     initrd = 'ubuntu/maverick-amd64/initrd.gz',
+                                     preseed = 'maverick-amd64-preseed.txt',
+                                     post_script = 'chef-client.sh'))

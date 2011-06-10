@@ -1,11 +1,16 @@
 <html>
-<head>
-<title>Web Kicker Dingus</title>
-</head>
-<body>
-<ul>
-  <li><a href="{{ url_for('html_show_keys') }}">Show Key/Values</a></li>
-  <li><a href="{{ url_for('html_show_hardware') }}">Show Hardware</a></li>
-</ul>
-</body>
+  <head>
+    <title>Web Kicker Dingus</title>
+  </head>
+  <body>
+    <ul>
+      {% for model in models %}
+      <li>
+	<a href="{{ url_for('html_object_grid', obj=model) }}">
+	  {{ model }}
+	</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </body>
 </html>
