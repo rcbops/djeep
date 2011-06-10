@@ -1,0 +1,9 @@
+default menu.c32
+prompt 0
+menu title PXE Boot
+timeout 100
+
+label maverick
+      menu label Ubuntu 10.10 (^Maverick)
+      kernel {{ host.kick_target.kernel }}
+      append auto=true priority=critical vga=788 initrd={{ host.kick_target.initrd }} languagechooser/language-name=English countrychooser/shortlist=US console-keymaps-at/keymap=en preseed/url=http://{{ site.webservice_host }}:{{ site.webservice_port }}/template/preseed/{{ host.id }}
