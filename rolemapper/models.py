@@ -1,4 +1,5 @@
 from rolemapper import db
+import sqlalchemy.types as types
 
 class TemplateVars(db.Model):
     __tablename__ = 'template_vars'

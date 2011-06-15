@@ -92,6 +92,8 @@ def html_object_edit(obj, key):
             retval = flask.redirect(flask.url_for('html_object_grid',
                                                   obj = obj))
         models.commit(info['object'])
+        if hasattr(info['object'], 'on_change'):
+            info['object'].on_change()
         return retval
     
     info['form_data'] = info['fields'].render()
@@ -129,6 +131,7 @@ def get_chef_key():
 @app.route('/template/<template_type>/<host_id>', methods=['GET'])
 def generate_template(template_type, host_id):
     if template_type not in ['preseed', 'post_script']:
+        return template_type
         flask.abort(404)
         
     hw = models.HardwareInfo.query.get_or_404(host_id)
@@ -144,6 +147,7 @@ def generate_template(template_type, host_id):
     try:
         return flask.render_template(template_file, host=hw, site=site)
     except TemplateNotFound:
+        return template_file
         flask.abort(404)
         
 
