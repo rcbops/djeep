@@ -32,7 +32,7 @@ def generate_pxelinux(outdir="tftproot/pxelinux.cfg"):
     site = dict(zip([x.key for x in kvpairs], [x.value for x in kvpairs]))
     for host in models.HardwareInfo.query.all():
         t = env.get_template("pxeconfig/%s" % host.kick_target.pxeconfig)
-        outfile = host.mac_address.replace(".","-").lower()
+        outfile = host.mac_address.replace(":","-").lower()
         with open("%s/%s" % (outdir, outfile), "w") as out:
             out.write(t.render(host=host,site=site))
 
