@@ -8,6 +8,5 @@ ff00::0 ip6-mcastprefix
 ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 
-{% for h in hosts %}
-{{ h.ip }} {{ h.host }}
+{% for h in hosts %}{{ h.ip }} {{ h.host }}
 {% endfor %}
