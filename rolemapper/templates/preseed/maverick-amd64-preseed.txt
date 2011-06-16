@@ -94,7 +94,7 @@ d-i mirror/http/proxy string
 # use sudo).
 #d-i passwd/root-login boolean false
 # Alternatively, to skip creation of a normal user account.
-d-i passwd/make-user boolean false
+#d-i passwd/make-user boolean false
 
 # Root password, either in clear text
 #d-i passwd/root-password password demo
@@ -103,13 +103,14 @@ d-i passwd/make-user boolean false
 d-i passwd/root-password-crypted password $6$yTfmg901$WdPzS8Tk1gi5XTAockGs1en2AqDazvuc.GBjfbDFRQM82txvRcCKAS6PGwJ46FEQC3DOTQhxd9O5hX/97Q60D.
 
 # To create a normal user account.
-#d-i passwd/user-fullname string Demo User
-#d-i passwd/username string demo
+d-i passwd/user-fullname string Demo User
+d-i passwd/username string demo
 # Normal user's password, either in clear text
 #d-i passwd/user-password password demo
 #d-i passwd/user-password-again password demo
 # or encrypted using an MD5 hash.
 #d-i passwd/user-password-crypted password [MD5 hash]
+d-i passwd/user-password-crypted password $6$yTfmg901$WdPzS8Tk1gi5XTAockGs1en2AqDazvuc.GBjfbDFRQM82txvRcCKAS6PGwJ46FEQC3DOTQhxd9O5hX/97Q60D.
 # Create the first user with the specified UID instead of the default.
 #d-i passwd/user-uid string 1010
 
