@@ -362,7 +362,6 @@ d-i finish-install/reboot_in_progress note
 # This first command is run as early as possible, just after
 # preseeding is read.
 #d-i preseed/early_command string anna-install some-udeb
-d-i preseed/early_command string bash -c "ip link set eth0 up; sleep 15"
 # This command is run immediately before the partitioner starts. It may be
 # useful to apply dynamic partitioner preseeding that depends on the state
 # of the disks (which may not be visible when preseed/early_command runs).
