@@ -147,7 +147,6 @@ def generate_template(template_type, host_id):
     try:
         return flask.render_template(template_file, host=hw, site=site)
     except TemplateNotFound:
-        return template_file
         flask.abort(404)
         
 
