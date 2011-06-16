@@ -80,7 +80,7 @@ d-i netcfg/wireless_wep string
 #d-i mirror/protocol string ftp
 d-i mirror/country string manual
 #d-i mirror/http/hostname string http.us.debian.org
-d-i mirror/http/hostname string mirrors.kernel.org
+d-i mirror/http/hostname string mirror.rackspace.com
 d-i mirror/http/directory string /ubuntu
 d-i mirror/http/proxy string
 
