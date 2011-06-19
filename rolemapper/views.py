@@ -1,15 +1,36 @@
 import flask
 
+from formalchemy import FieldSet
+from functools import wraps
+from jinja2 import TemplateNotFound
 from rolemapper import app, db
 from rolemapper import models
-from formalchemy import FieldSet
-from jinja2 import TemplateNotFound
 
+def verify_user(username, password):
+    # should be md5 + db or something
+    return username == 'admin' and password == 'supersecret'
+
+def authenticate():
+    return flask.Response("Auth required", 401,
+                          { 'www-authenticate': 'Basic realm="kick dingus"' })
+
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = flask.request.authorization
+        if not auth or not verify_user(auth.username, auth.password):
+            return authenticate()
+        return f(*args, **kwargs)
+    return decorated
+        
 @app.route('/', methods=['GET'])
+@requires_auth
 def html_default():
     return flask.render_template('default.html', models=models.ModelList)
 
 @app.route('/admin/<obj>/view', methods=['GET'])
+@requires_auth
 def html_object_grid(obj):
     if not obj in models.ModelList.keys():
         flask.abort(404)
@@ -41,6 +62,7 @@ def html_object_new(obj):
     return html_object_edit(obj, None)
 
 @app.route('/admin/<obj>/delete/<key>', methods=['GET'])
+@requires_auth
 def html_object_delete(obj, key):
     if not obj in models.ModelList.keys():
         flask.abort(404)
