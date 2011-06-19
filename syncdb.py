@@ -33,25 +33,25 @@ if models.KickTargets.query.first() is None:
                                      kernel = '',
                                      initrd = '',
                                      preseed = '',
-                                     post_script = ''))
+                                     post_script = 'post-scripts/none.sh'))
 
     models.commit(models.KickTargets(name = 'Defaults (Ubuntu 10.10 amd64)',
                                      pxeconfig = 'ubuntu',
                                      kernel = 'ubuntu/maverick-amd64/linux',
                                      initrd = 'ubuntu/maverick-amd64/initrd.gz',
-                                     preseed = 'maverick-amd64-preseed.txt',
-                                     post_script = ''))
+                                     preseed = 'preseed/maverick-amd64-preseed.txt',
+                                     post_script = 'post-scripts/none.sh'))
 
     models.commit(models.KickTargets(name = 'Chef Server (Ubuntu 10.10 amd64)',
                                      pxeconfig = 'ubuntu',
                                      kernel = 'ubuntu/maverick-amd64/linux',
                                      initrd = 'ubuntu/maverick-amd64/initrd.gz',
-                                     preseed = 'maverick-amd64-preseed.txt',
-                                     post_script = 'chef-server.sh'))
+                                     preseed = 'preseed/maverick-amd64-preseed.txt',
+                                     post_script = 'post-scripts/chef-server.sh'))
                   
     models.commit(models.KickTargets(name = 'Chef Client (Ubuntu 10.10 amd64)',
                                      pxeconfig = 'ubuntu',
                                      kernel = 'ubuntu/maverick-amd64/linux',
                                      initrd = 'ubuntu/maverick-amd64/initrd.gz',
-                                     preseed = 'maverick-amd64-preseed.txt',
-                                     post_script = 'chef-client.sh'))
+                                     preseed = 'preseed/maverick-amd64-preseed.txt',
+                                     post_script = 'post-scripts/chef-client.sh'))

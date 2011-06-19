@@ -24,12 +24,12 @@ class HardwareInfo(db.Model):
         """update conf/etc/ethers, conf/etc/hosts, and pxelinux config, and send sighup to dnsmasq"""
         from jinja2 import Environment, PackageLoader
         env = Environment(loader=PackageLoader('rolemapper', 'templates'))
-        ethers_f = "conf/etc/ethers"
-        hosts_f  = "conf/etc/hosts"
+        ethers_f = "/etc/ethers"
+        hosts_f  = "/etc/hosts"
         boot_f  = "tftproot/pxelinux.cfg/01-%s" % (
                       self.mac_address.replace(":","-").lower())
         ethers_t = env.get_template("etc/ethers")
-        hosts_t = env.get_template("/etc/hosts")
+        hosts_t = env.get_template("etc/hosts")
         boot_t  = env.get_template("pxeconfig/%s" % (
                                    self.kick_target.pxeconfig))
         kvpairs = TemplateVars.query.all()
