@@ -74,14 +74,16 @@ d-i netcfg/wireless_wep string
 #d-i anna/choose_modules string network-console
 #d-i network-console/password password r00tme
 #d-i network-console/password-again password r00tme
+{% set ubuntu_mirror = site.ubuntu_mirror or 'mirror.rackspace.com' %}
+{% set ubuntu_directory = site.ubuntu_directory or '/ubuntu' %}
 
 ### Mirror settings
 # If you select ftp, the mirror/country string does not need to be set.
 #d-i mirror/protocol string ftp
 d-i mirror/country string manual
-#d-i mirror/http/hostname string http.us.debian.org
-d-i mirror/http/hostname string mirror.rackspace.com
-d-i mirror/http/directory string /ubuntu
+d-i mirror/http/hostname string {{ ubuntu_mirror }}
+#d-i mirror/http/hostname string mirror.rackspace.com
+d-i mirror/http/directory string {{ ubuntu_directory }}
 d-i mirror/http/proxy string
 
 # Suite to install.
