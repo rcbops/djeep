@@ -58,6 +58,7 @@ class KickTargets(db.Model):
     initrd = db.Column(db.String(255))
     preseed = db.Column(db.String(255))
     post_script = db.Column(db.String(255))
+    firstboot = db.Column(db.String(255))
 
     def __repr__(self):
         return self.name
