@@ -3,4 +3,4 @@ flask
 sqlalchemy < 0.7.0
 flask-sqlalchemy
 formalchemy
-
+sqlalchemy-migrate

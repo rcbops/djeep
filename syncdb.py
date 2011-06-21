@@ -1,6 +1,21 @@
+import os 
+import sys
 from rolemapper import models
+from rolemapper.config import SQLALCHEMY_DATABASE_URI as db
+from migrate.versioning.api import *
+from migrate.exceptions import DatabaseNotControlledError
 
-models.db.create_all()
+repo = "rolemapper/migration"
+try: 
+    db_version(db, repo)
+except DatabaseNotControlledError:
+    if os.path.exists(db):
+        print "%s already exists without versioning.  Please either start " + \
+              "fresh or use the migration tools to set an appropriate " + \
+              "version in your database." % db
+    version_control(db, repo)
+#models.db.create_all()
+
 
 # dummy up some sample values
 default_kvs = {
