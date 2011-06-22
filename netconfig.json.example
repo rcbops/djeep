@@ -1,0 +1,24 @@
+{"netconfig": { 
+    "interfaces": {
+        "bond-eth0,eth1": {
+            "type": "bond",
+            "devices": ["eth0","eth1"] 
+        },
+        "bond-eth2,eth3": {
+            "type": "bond",
+            "devices": ["eth2","eth3"]
+        }
+    },
+    "nets": {
+        "host-pub": {
+            "interface": "bond-eth0,eth1",
+            "ip": "50.56.12.197",
+            "netmask": "255.255.255.224",
+            "vlan": null
+        }
+    },
+    "general":
+    {
+        "gateway": "50.56.12.193"
+    }
+}}
