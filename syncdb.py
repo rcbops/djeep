@@ -14,6 +14,7 @@ except DatabaseNotControlledError:
               "fresh or use the migration tools to set an appropriate " + \
               "version in your database." % db
     version_control(db, repo)
+upgrade(db,repo)
 #models.db.create_all()
 
 
