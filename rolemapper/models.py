@@ -20,6 +20,7 @@ class HardwareInfo(db.Model):
     kick_id = db.Column(db.Integer, db.ForeignKey('kick_targets.id')) # foreign keys?
     kick_target = db.relationship('KickTargets')
     chef_role = db.Column(db.String(80))
+    state     = db.Column(db.String(255), default="unmanaged")
     def on_change(self):
         """update conf/etc/ethers, conf/etc/hosts, and pxelinux config, and send sighup to dnsmasq"""
         from jinja2 import Environment, PackageLoader
