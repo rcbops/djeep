@@ -39,7 +39,7 @@ class HardwareInfo(db.Model):
         ethers = []
         hosts = []
 
-        for h in hardware:
+        for h in [ h for h in hardware if h.state != "unmanaged" ]:
             hosts.append(dict(ip=h.ip_address, host=h.hostname))
             ethers.append(dict(mac=h.mac_address, host=h.hostname))
 
