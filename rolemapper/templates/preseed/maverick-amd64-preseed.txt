@@ -377,5 +377,4 @@ d-i finish-install/reboot_in_progress note
 #d-i preseed/late_command string apt-install zsh; in-target chsh -s /bin/zsh
 
 # set boot back to hdd and set up postinstall script
-d-i preseed/late_command string apt-install curl; in-target sh -c 'curl -skS http://{{ site.webservice_host }}:{{ site.webservice_port }}/template/post_script/{{ host.id }} > /root/install.sh'; in-target sh -c 'chmod +x /root/install.sh'; sed -i /target/etc/rc.local -e 's_exit 0_/root/install.sh_'; in-target curl -H 'Content-Type: application/json' http://{{ site.webservice_host }}:{{ site.webservice_port }}/admin/hardware/edit/{{ host.id }} -d'{ "kick_id": 1 }'; 
-
+d-i preseed/late_command string apt-install curl; in-target sh -c 'curl -skS http://{{ site.webservice_host }}:{{ site.webservice_port }}/template/post_script/{{ host.id }} | /bin/sh'

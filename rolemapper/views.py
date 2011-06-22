@@ -152,7 +152,7 @@ def get_chef_key():
 
 @app.route('/template/<template_type>/<host_id>', methods=['GET'])
 def generate_template(template_type, host_id):
-    if template_type not in ['preseed', 'post_script']:
+    if template_type not in ['preseed', 'post_script', 'firstboot']:
         return template_type
         flask.abort(404)
         
@@ -163,8 +163,10 @@ def generate_template(template_type, host_id):
     # the template type is one of:
     #  * preseed
     #  * post_script
+    #  * firstboot
 
-    template_file = hw.kick_target.__getattribute__(template_type)
+    template_file = "%s/%s" % (template_type,
+                               hw.kick_target.__getattribute__(template_type))
 
     try:
         return flask.render_template(template_file, host=hw, site=site)
