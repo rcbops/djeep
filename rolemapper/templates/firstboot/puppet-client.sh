@@ -40,6 +40,8 @@ ssl_client_header = SSL_CLIENT_S_DN
 ssl_client_verify_header = SSL_CLIENT_VERIFY
 EOF
 
+sed -i /etc/default/puppet -e 's/START=no/START=yes/'
+
 /etc/init.d/puppet start
 
 exit 0
