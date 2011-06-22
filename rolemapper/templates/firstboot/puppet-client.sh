@@ -14,7 +14,8 @@
 #set -e
 #set -x
 
-sleep 10
+# wait longer for uplink
+sleep 60
 
 sed -i /etc/rc.local -e 's_/root/install.sh_exit 0_'
 
