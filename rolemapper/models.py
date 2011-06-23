@@ -43,13 +43,12 @@ class HardwareInfo(db.Model):
         hosts = []
 
         for h in [ h for h in hardware if h.state != "unmanaged" ]:
-            hosts.append(dict(ip=h.ip_address, host=h.hostname, 
-                              localhost=socket.gethostname()))
+            hosts.append(dict(ip=h.ip_address, host=h.hostname))
             ethers.append(dict(mac=h.mac_address, host=h.hostname))
         with open(ethers_f,"w") as f:
             f.write(ethers_t.render(ethers=ethers))
         with open(hosts_f,"w") as f:
-            f.write(hosts_t.render(hosts=hosts))
+            f.write(hosts_t.render(hosts=hosts,localhost=socket.gethostname()))
         with open(boot_f,"w") as f:
             f.write(boot_t.render(host=self, site=site))
         subprocess.call("kill -hup $(pgrep dnsmasq)", shell=True)
