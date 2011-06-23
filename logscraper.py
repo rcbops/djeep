@@ -19,4 +19,6 @@ while 1:
     if msg.find("DHCPDISCOVER") >= 0 and msg.find("ignored") > 0:
         print msg.split()[1]
     if msg.find("DHCPDISCOVER") >= 0 and msg.find("no address available") > 0:
-        print msg.split()[2]
+        parts = msg.split()
+        idx = parts.index("no") - 1
+        print msg.split()[idx]
