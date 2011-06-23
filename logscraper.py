@@ -17,13 +17,13 @@ def main():
     else:
         log_file = sys.stdin
     
-    macs = set("")
+    macs = set()
     
     while 1:
         line = log_file.readline()
         if not line:
             break
-        mac = ""
+        mac = None
         line = line[line.find(hostname):]
         (syslog_stuff, msg) = [ x.strip() for x in line.split(":",1) ]
         if msg.find("DHCPDISCOVER") >= 0 and msg.find("ignored") > 0:
@@ -32,7 +32,7 @@ def main():
             parts = msg.split()
             idx = parts.index("no") - 1
             mac = msg.split()[idx]
-        if not mac in macs:
+        if mac and not mac in macs:
             macs.add(mac)
             register_mac(mac)
 
