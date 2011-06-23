@@ -22,6 +22,8 @@ class HardwareInfo(db.Model):
     kick_target = db.relationship('KickTargets')
     chef_role = db.Column(db.String(80))
     state     = db.Column(db.String(255), default="unmanaged")
+    cluster_id = db.Column(db.Integer, db.ForeignKey('clusters.id'))
+    cluster = db.relationship('Clusters')
     def on_change(self):
         """update conf/etc/ethers, conf/etc/hosts, and pxelinux config, and send sighup to dnsmasq"""
         from jinja2 import Environment, PackageLoader
@@ -51,6 +53,13 @@ class HardwareInfo(db.Model):
         with open(boot_f,"w") as f:
             f.write(boot_t.render(host=self, site=site))
         subprocess.call("kill -hup $(pgrep dnsmasq)", shell=True)
+
+class Clusters(db.Model):
+    __tablename__ = 'clusters'
+    id = db.Column(db.Integer, primary_key = True)
+    short_name = db.Column(db.String(40))
+    display_name = db.Column(db.String(80))
+
 class KickTargets(db.Model):
     __tablename__ = 'kick_targets'
     id = db.Column(db.Integer, primary_key = True)
@@ -73,6 +82,7 @@ def commit(*models):
 ModelList = {
     "keys": TemplateVars,
     "hardware": HardwareInfo,
-    "targets": KickTargets
+    "targets": KickTargets,
+    "clusters": Clusters
 }
 

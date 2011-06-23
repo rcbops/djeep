@@ -33,16 +33,10 @@ for key in default_kvs:
             models.TemplateVars.key == key).first() is None:
         models.commit(models.TemplateVars(key=key, value=default_kvs[key]))
 
-if models.HardwareInfo.query.first() is None:
-    models.commit(models.HardwareInfo(mac_address = '00:00:00:00:00:00',
-                                      hardware_info = '{}',
-                                      ip_address = '192.168.122.100',
-                                      netmask = '255.255.255.0',
-                                      gateway = '192.168.122.1',
-                                      hostname = 'host-n01',
-                                      kick_id = 1,
-                                      chef_role = 'chef_server'))
-
+if models.Cluster.query.first() is None:
+    models.commit(models.Cluster(short_name = "test",
+                                 display_name = "Default Cluster"))
+    
 if models.KickTargets.query.first() is None:
     models.commit(models.KickTargets(name = 'Boot to HDD',
                                      pxeconfig = 'hdd',
@@ -52,11 +46,30 @@ if models.KickTargets.query.first() is None:
                                      post_script = '',
                                      firstboot = ''))
 
-    models.commit(models.KickTargets(name = 'Defaults (Ubuntu 10.10 amd64)',
+    models.commit(models.KickTargets(name = 'Defaults (maverick amd64)',
                                      pxeconfig = 'ubuntu',
                                      kernel = 'ubuntu/maverick-amd64/linux',
                                      initrd = 'ubuntu/maverick-amd64/initrd.gz',
                                      preseed = 'maverick-amd64-preseed.txt',
                                      post_script = 'debian.sh',
                                      firstboot = 'none.sh'))
+
+    models.commit(models.KickTargets(name = 'Puppet Client (maverick amd64)',
+                                     pxeconfig = 'ubuntu',
+                                     kernel = 'ubuntu/maverick-amd64/linux',
+                                     initrd = 'ubuntu/maverick-amd64/initrd.gz',
+                                     preseed = 'maverick-amd64-preseed.txt',
+                                     post_script = 'debian.sh',
+                                     firstboot = 'puppet-client.sh'))
+
+if models.HardwareInfo.query.first() is None:
+    models.commit(models.HardwareInfo(mac_address = '00:00:00:00:00:00',
+                                      hardware_info = '{}',
+                                      ip_address = '192.168.122.100',
+                                      netmask = '255.255.255.0',
+                                      gateway = '192.168.122.1',
+                                      hostname = 'host-n01',
+                                      kick_id = 1,
+                                      cluster_id = 1,
+                                      chef_role = 'chef_server'))
 
