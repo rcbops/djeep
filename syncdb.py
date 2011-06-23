@@ -33,8 +33,8 @@ for key in default_kvs:
             models.TemplateVars.key == key).first() is None:
         models.commit(models.TemplateVars(key=key, value=default_kvs[key]))
 
-if models.Cluster.query.first() is None:
-    models.commit(models.Cluster(short_name = "test",
+if models.Clusters.query.first() is None:
+    models.commit(models.Clusters(short_name = "test",
                                  display_name = "Default Cluster"))
     
 if models.KickTargets.query.first() is None:
