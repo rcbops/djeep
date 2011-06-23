@@ -1,6 +1,7 @@
 from rolemapper import db
 import sqlalchemy.types as types
 import subprocess
+import socket
 
 class TemplateVars(db.Model):
     __tablename__ = 'template_vars'
@@ -40,9 +41,9 @@ class HardwareInfo(db.Model):
         hosts = []
 
         for h in [ h for h in hardware if h.state != "unmanaged" ]:
-            hosts.append(dict(ip=h.ip_address, host=h.hostname))
+            hosts.append(dict(ip=h.ip_address, host=h.hostname, 
+                              localhost=socket.gethostname()))
             ethers.append(dict(mac=h.mac_address, host=h.hostname))
-
         with open(ethers_f,"w") as f:
             f.write(ethers_t.render(ethers=ethers))
         with open(hosts_f,"w") as f:
