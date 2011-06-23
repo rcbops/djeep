@@ -60,6 +60,9 @@ class Clusters(db.Model):
     short_name = db.Column(db.String(40))
     display_name = db.Column(db.String(80))
 
+    def __repr__(self):
+        return "%s (%s)" % (self.display_name, self.short_name)
+
 class KickTargets(db.Model):
     __tablename__ = 'kick_targets'
     id = db.Column(db.Integer, primary_key = True)
