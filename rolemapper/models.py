@@ -48,7 +48,7 @@ class HardwareInfo(db.Model):
         with open(ethers_f,"w") as f:
             f.write(ethers_t.render(ethers=ethers))
         with open(hosts_f,"w") as f:
-            f.write(hosts_t.render(hosts=hosts,localhost=socket.gethostname()))
+            f.write(hosts_t.render(hosts=hosts))
         with open(boot_f,"w") as f:
             f.write(boot_t.render(host=self, site=site))
         subprocess.call("kill -hup $(pgrep dnsmasq)", shell=True)
