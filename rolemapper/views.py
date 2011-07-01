@@ -61,7 +61,6 @@ def html_object_grid(obj, which=None):
             'application/json':
 
         def hashify_hwinfo(hwinfo):
-            print hwinfo
             out_obj = {}
             for field in info['field_names']:
                 out_obj[field] = getattr(hwinfo,field)
