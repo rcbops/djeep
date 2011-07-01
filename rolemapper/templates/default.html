@@ -6,7 +6,7 @@
     <ul>
       {% for model in models %}
       <li>
-	<a href="{{ url_for('html_object_grid', obj=model) }}">
+	<a href="{{ url_for('html_object_list_view', obj=model) }}">
 	  {{ model }}
 	</a>
       </li>

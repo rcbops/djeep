@@ -1,0 +1,13 @@
+{% include 'header.html' %}
+
+<table>
+  {% for field_name in info.field_names %}
+  <tr>
+    <th>{{ field_name.title() }}</th>
+    <td>{{ info.objects[field_name] }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<a href="{{ url_for('html_object_list_view', obj=info.obj) }}">Back</a>
+{% include 'footer.html' %}

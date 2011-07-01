@@ -29,9 +29,17 @@ def requires_auth(f):
 def html_default():
     return flask.render_template('default.html', models=models.ModelList)
 
+@app.route('/admin/<obj>/view/<id>', methods=['GET'])
+@requires_auth
+def html_object_single_view(obj, id):
+    return html_object_grid(obj, id)
+
 @app.route('/admin/<obj>/view', methods=['GET'])
 @requires_auth
-def html_object_grid(obj):
+def html_object_list_view(obj):
+    return html_object_grid(obj, None)
+
+def html_object_grid(obj, which=None):
     if not obj in models.ModelList.keys():
         flask.abort(404)
 
@@ -40,19 +48,33 @@ def html_object_grid(obj):
     info = {}
     info['field_names'] = obj_class.__table__.columns.keys()
     info['key'] = obj_class.__table__.primary_key.columns.keys()[0]
-    info['objects'] = obj_class.query.all()
     info['obj']  = obj
 
-    template = 'table_view.html'
+    if which is None:
+        info['objects'] = obj_class.query.all()
+        template = 'table_view.html'
+    else:
+        info['objects'] = obj_class.query.get_or_404(which)
+        template = 'single_view.html'
+
     if flask.request.accept_mimetypes.best_match(['application/json','text/html']) == \
             'application/json':
-            
-        output = { 'hardware': [] }
-        for response_object in info['objects']:
+
+        def hashify_hwinfo(hwinfo):
+            print hwinfo
             out_obj = {}
             for field in info['field_names']:
-                out_obj[field] = getattr(response_object,field)
-            output['hardware'].append(out_obj)
+                out_obj[field] = getattr(hwinfo,field)
+            return out_obj
+
+        output = { 'hardware': [] }
+
+        if which is not None:
+            return flask.jsonify(hashify_hwinfo(info['objects']))
+        
+        for response_object in info['objects']:
+            output['hardware'].append(hashify_hwinfo(response_object))
+
         return flask.jsonify(output)
 
     return flask.render_template(template, info=info)
@@ -73,7 +95,7 @@ def html_object_delete(obj, key):
     db.session.delete(o)
     db.session.flush()
     
-    return flask.redirect(flask.url_for('html_object_grid',
+    return flask.redirect(flask.url_for('html_object_list_view',
                                         obj = obj))
 
 @app.route('/admin/<obj>/edit/<key>', methods=['GET', 'POST'])
@@ -111,7 +133,7 @@ def html_object_edit(obj, key):
             if fields.validate():
                 fields.sync()
 
-            retval = flask.redirect(flask.url_for('html_object_grid',
+            retval = flask.redirect(flask.url_for('html_object_list_view',
                                                   obj = obj))
         models.commit(info['object'])
         if hasattr(info['object'], 'on_change'):
