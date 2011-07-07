@@ -150,3 +150,7 @@ LOGGING = {
         },
     }
 }
+
+
+TFTPROOT = os.path.join(os.path.dirname(__file__), 'tftproot')
+PXELINUX = os.path.join(TFTPROOT, 'pxelinux.cfg')

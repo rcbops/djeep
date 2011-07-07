@@ -1,3 +1,5 @@
+from django import dispatch
+from django.core import signals
 from django.db import models
 
 # Create your models here.

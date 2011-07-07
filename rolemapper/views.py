@@ -8,6 +8,7 @@ from django.conf import settings
 from django.template import loader
 
 from bleep.rolemapper import static
+from bleep.rolemapper import sync
 
 class EditForm(forms.Form):
   content = forms.CharField(
