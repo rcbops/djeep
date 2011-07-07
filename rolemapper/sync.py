@@ -36,6 +36,7 @@ def _write_dnsmasq_conf(outdir=settings.ETC):
   _ensure_dir(outdir)
   templatevars = models.TemplateVar.objects.all()
   site = dict((x.key, x.value) for x in templatevars)
+  tftproot = settings.TFTPROOT
 
   c = template.Context(locals())
   t = loader.get_template(os.path.join('etc', 'dnsmasq.conf'))
@@ -49,7 +50,6 @@ def _write_dnsmasq_ethers(outdir=settings.ETC):
   templatevars = models.TemplateVar.objects.all()
   site = dict((x.key, x.value) for x in templatevars)
   hosts = models.HardwareInfo.objects.all()
-  tftproot = settings.TFTPROOT
 
   c = template.Context(locals())
   t = loader.get_template(os.path.join('etc', 'ethers'))

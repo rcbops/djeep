@@ -8,3 +8,4 @@ pxelinux.0
 webapp.db
 .*.swp
 *.sqlite
+etc
