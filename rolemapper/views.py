@@ -67,6 +67,8 @@ def preseed(request, system):
   # lookup which preseed template to use
   host = models.HardwareInfo.objects.get(pk=system)
   kick_target = host.kick_target
+
+  # TODO(termie): the defaults should probably be in settings.py
   ubuntu_mirror = site.get('ubuntu_mirror', 'mirror.rackspace.com')
   ubuntu_directory = site.get('ubuntu_directory', '/ubuntu')
   root_cryptpw = site.get('root_cryptpw', '$1$5wm8ppD/$h4uMY0gPcTKRJgZHRszBk/')
