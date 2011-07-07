@@ -74,8 +74,6 @@ d-i netcfg/wireless_wep string
 #d-i anna/choose_modules string network-console
 #d-i network-console/password password r00tme
 #d-i network-console/password-again password r00tme
-{% set ubuntu_mirror = site.ubuntu_mirror or 'mirror.rackspace.com' %}
-{% set ubuntu_directory = site.ubuntu_directory or '/ubuntu' %}
 
 ### Mirror settings
 # If you select ftp, the mirror/country string does not need to be set.
@@ -102,12 +100,7 @@ d-i mirror/http/proxy string
 #d-i passwd/root-password password demo
 #d-i passwd/root-password-again password demo
 # or encrypted using an MD5 hash.
-{% set root_cryptpw = site.root_cryptpw or '$1$5wm8ppD/$h4uMY0gPcTKRJgZHRszBk/' %}
-
 d-i passwd/root-password-crypted password {{ root_cryptpw }}
-
-{% set default_cryptpw = site.default_cryptpw or '$1$5wm8ppD/$h4uMY0gPcTKRJgZHRszBk/' %}
-{% set default_username = site.default_username or 'demo' %}
 
 # To create a normal user account.
 d-i passwd/user-fullname string Default User
@@ -220,7 +213,7 @@ d-i partman-lvm/confirm_nooverwrite boolean true
 # so this will only work if the disks are the same size.
 #d-i partman-auto/disk string /dev/sda /dev/sdb
 
-# Next you need to specify the physical partitions that will be used. 
+# Next you need to specify the physical partitions that will be used.
 #d-i partman-auto/expert_recipe string \
 #      multiraid ::                                         \
 #              1000 5000 4000 raid                          \
@@ -311,7 +304,7 @@ d-i apt-setup/contrib boolean true
 #d-i debian-installer/allow_unauthenticated boolean true
 
 ### Package selection
-tasksel tasksel/first multiselect 
+tasksel tasksel/first multiselect
 #tasksel tasksel/first multiselect standard, web-server
 # If the desktop task is selected, install the kde and xfce desktops
 # instead of the default gnome desktop.

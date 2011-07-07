@@ -7,8 +7,10 @@ from django import template
 from django.conf import settings
 from django.template import loader
 
+from bleep.rolemapper import models
 from bleep.rolemapper import static
 from bleep.rolemapper import sync
+
 
 class EditForm(forms.Form):
   content = forms.CharField(
@@ -59,10 +61,18 @@ def flat_edit(request, kind, name):
 
 def preseed(request, system):
   """Provide the preseed file for a given instance."""
+  templatevars = models.TemplateVar.objects.all()
+  site = dict((x.key, x.value) for x in templatevars)
 
   # lookup which preseed template to use
-  hardware_info = models.HardwareInfo.objects.get_by_id(system)
-  kick_target = hardware_info.kick_target
+  host = models.HardwareInfo.objects.get(pk=system)
+  kick_target = host.kick_target
+  ubuntu_mirror = site.get('ubuntu_mirror', 'mirror.rackspace.com')
+  ubuntu_directory = site.get('ubuntu_directory', '/ubuntu')
+  root_cryptpw = site.get('root_cryptpw', '$1$5wm8ppD/$h4uMY0gPcTKRJgZHRszBk/')
+  default_cryptpw = site.get('default_cryptpw', '$1$5wm8ppD/$h4uMY0gPcTKRJgZHRszBk/')
+  default_username = site.get('default_username', 'demo')
+
   c = template.RequestContext(request, locals())
   preseed_template = loader.get_template(
       os.path.join('preseed', kick_target.preseed))
