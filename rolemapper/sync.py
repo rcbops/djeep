@@ -1,4 +1,5 @@
 import functools
+import logging
 import os
 
 from django import template
@@ -9,12 +10,16 @@ import paramiko
 
 from djeep.rolemapper import models
 
-
 # I handle writing the files to disk that need to be kept in sync with our db
+
+
+logging = logging.getLogger(__name__)
+
 
 def _ensure_dir(d):
   try:
     os.makedirs(d)
+    logging.info('Created directory: %s', d)
   except os.error:
     pass
 
@@ -23,6 +28,8 @@ def _write_pxelinux(outdir=settings.PXELINUX):
   _ensure_dir(outdir)
   templatevars = models.TemplateVar.objects.all()
   site = dict((x.key, x.value) for x in templatevars)
+  # TODO(termie): clear out old files
+
   for host in models.HardwareInfo.objects.all():
     pxeconfig = host.kick_target.pxeconfig
 
@@ -31,6 +38,7 @@ def _write_pxelinux(outdir=settings.PXELINUX):
     outfile = '01-%s' % (host.mac_address.replace(':', '-').lower())
     with open('%s/%s' % (outdir, outfile), 'w') as out:
       out.write(t.render(c))
+      logging.info('Wrote PXE for: %s', host.hostname)
 
 
 def _write_dnsmasq_conf(outdir=settings.ETC):
@@ -44,6 +52,7 @@ def _write_dnsmasq_conf(outdir=settings.ETC):
   outfile = os.path.join(outdir, 'dnsmasq.conf')
   with open(outfile, 'w') as out:
     out.write(t.render(c))
+    logging.info('Wrote etc/dnsmasq.conf')
 
 
 def _write_dnsmasq_ethers(outdir=settings.ETC):
@@ -57,6 +66,7 @@ def _write_dnsmasq_ethers(outdir=settings.ETC):
   outfile = os.path.join(outdir, 'ethers')
   with open(outfile, 'w') as out:
     out.write(t.render(c))
+    logging.info('Wrote etc/ethers')
 
 
 def _write_dnsmasq_hosts(outdir=settings.ETC):
@@ -70,6 +80,7 @@ def _write_dnsmasq_hosts(outdir=settings.ETC):
   outfile = os.path.join(outdir, 'hosts')
   with open(outfile, 'w') as out:
     out.write(t.render(c))
+    logging.info('Wrote etc/hosts')
 
 
 def _write_ssh_key(outdir=settings.SSH):
@@ -80,12 +91,14 @@ def _write_ssh_key(outdir=settings.SSH):
   if not os.path.exists(outfile):
     private = paramiko.RSAKey.generate(1024)
     private.write_private_key_file(outfile)
+    logging.info('Wrote ssh/id_rsa')
   else:
     private = paramiko.RSAKey.from_private_key_file(outfile)
 
   if not os.path.exists(outfile_public):
     with open(outfile_public, 'w') as out:
       out.write('%s %s' % (private.get_name(), private.get_base64()))
+      logging.info('Wrote ssh/id_rsa.pub')
 
 
 def _write_authorized_keys(outdir=settings.SSH):
@@ -97,9 +110,10 @@ def _write_authorized_keys(outdir=settings.SSH):
   if not os.path.exists(outfile):
     with open(outfile, 'w') as out:
       out.write('command="%s" %s' % (command, public_key))
+      logging.info('Wrote ssh/authorized_keys')
 
 
-def sync_to_disk(sender, instance, created=None, raw=None, using=None, **kwargs):
+def sync_to_disk(*args, **kwargs):
   """Do the work to make sure our changes are synced to disk."""
   _write_pxelinux()
   _write_dnsmasq_conf()
