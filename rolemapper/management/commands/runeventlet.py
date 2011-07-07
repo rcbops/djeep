@@ -5,7 +5,7 @@ from eventlet import wsgi
 from django.core.management.commands import runserver
 
 
-class Command(runserver.BaseRunserverCommand):
+class Command(runserver.Command):
   args = '[optional port numer, or ipaddr:port]'
   help = 'Starts a webserver using eventlet and wsgi'
 

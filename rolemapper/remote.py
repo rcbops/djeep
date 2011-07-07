@@ -1,0 +1,4 @@
+
+
+def reboot(hardware):
+  pass
