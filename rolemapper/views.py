@@ -81,3 +81,33 @@ def preseed(request, system):
   preseed_template = loader.get_template(
       os.path.join('preseed', kick_target.preseed))
   return http.HttpResponse(preseed_template.render(c))
+
+
+def firstboot(request, system):
+  """Provide the firstboot file for a given instance."""
+  templatevars = models.TemplateVar.objects.all()
+  site = dict((x.key, x.value) for x in templatevars)
+
+  # lookup which preseed template to use
+  host = models.HardwareInfo.objects.get(pk=system)
+  kick_target = host.kick_target
+
+  c = template.RequestContext(request, locals())
+  preseed_template = loader.get_template(
+      os.path.join('firstboot', kick_target.firstboot))
+  return http.HttpResponse(preseed_template.render(c))
+
+
+def post_script(request, system):
+  """Provide the post_script file for a given instance."""
+  templatevars = models.TemplateVar.objects.all()
+  site = dict((x.key, x.value) for x in templatevars)
+
+  # lookup which preseed template to use
+  host = models.HardwareInfo.objects.get(pk=system)
+  kick_target = host.kick_target
+
+  c = template.RequestContext(request, locals())
+  preseed_template = loader.get_template(
+      os.path.join('post_script', kick_target.post_script))
+  return http.HttpResponse(preseed_template.render(c))

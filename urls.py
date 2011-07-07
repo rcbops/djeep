@@ -11,6 +11,13 @@ urlpatterns = patterns('',
 
     url(r'^preseed/(?P<system>\d+)$', 'bleep.rolemapper.views.preseed',
         name='preseed'),
+    url(r'^post_script/(?P<system>\d+)$', 'bleep.rolemapper.views.post_script',
+        name='post_script'),
+    url(r'^firstboot/(?P<system>\d+)$', 'bleep.rolemapper.views.firstboot',
+        name='firstboot'),
+
+
+
     url(r'^flat/(?P<kind>[^/]+)/$', 'bleep.rolemapper.views.flat_index',
         name='flat_index'),
 

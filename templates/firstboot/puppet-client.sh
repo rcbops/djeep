@@ -32,7 +32,7 @@ factpath=$vardir/lib/facter
 templatedir=$confdir/templates
 prerun_command=/etc/puppet/etckeeper-commit-pre
 postrun_command=/etc/puppet/etckeeper-commit-post
-server = {{ site.puppet_server }}
+server = {{site.puppet_server}}
 
 [master]
 # These are needed when the puppetmaster is run by passenger
