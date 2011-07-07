@@ -10,3 +10,4 @@ webapp.db
 *.sqlite
 etc
 tftproot/pxelinux.cfg/01*
+ssh

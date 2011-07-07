@@ -1,3 +1,5 @@
 South
 django
 eventlet
+pycrypto
+paramiko

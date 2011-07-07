@@ -5,6 +5,7 @@ from django import template
 from django.conf import settings
 from django.template import loader
 from django.db.models import signals
+import paramiko
 
 from djeep.rolemapper import models
 
@@ -71,12 +72,41 @@ def _write_dnsmasq_hosts(outdir=settings.ETC):
     out.write(t.render(c))
 
 
+def _write_ssh_key(outdir=settings.SSH):
+  _ensure_dir(outdir)
+  outfile = os.path.join(outdir, 'id_rsa')
+  outfile_public = os.path.join(outdir, 'id_rsa.pub')
+
+  if not os.path.exists(outfile):
+    private = paramiko.RSAKey.generate(1024)
+    private.write_private_key_file(outfile)
+  else:
+    private = paramiko.RSAKey.from_private_key_file(outfile)
+
+  if not os.path.exists(outfile_public):
+    with open(outfile_public, 'w') as out:
+      out.write('%s %s' % (private.get_name(), private.get_base64()))
+
+
+def _write_authorized_keys(outdir=settings.SSH):
+  public_key_path = os.path.join(outdir, 'id_rsa.pub')
+  public_key = open(public_key_path).read()
+  command = '/sbin/shutdown -rf now'
+  outfile = os.path.join(outdir, 'authorized_keys')
+
+  if not os.path.exists(outfile):
+    with open(outfile, 'w') as out:
+      out.write('command="%s" %s' % (command, public_key))
+
+
 def sync_to_disk(sender, instance, created=None, raw=None, using=None, **kwargs):
   """Do the work to make sure our changes are synced to disk."""
   _write_pxelinux()
   _write_dnsmasq_conf()
   _write_dnsmasq_ethers()
   _write_dnsmasq_hosts()
+  _write_ssh_key()
+  _write_authorized_keys()
 
 
 signals.post_save.connect(sync_to_disk)
