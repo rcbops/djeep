@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from djeep.rolemapper import models
+from djeep.rolemapper import remote
 from djeep.rolemapper import sync
 
 
@@ -18,6 +19,15 @@ class HardwareInfoAdmin(admin.ModelAdmin):
                   'state',
                   'kick_target',
                   'cluster')
+
+  actions = ['reboot']
+  def reboot(self, request, queryset):
+    for hardware in queryset:
+      remote.reboot(hardware)
+
+    self.message_user(request, 'Rebooted %s machines.' % len(queryset))
+
+  reboot.short_description = 'Reboot selected hardware'
 
 admin.site.register(models.HardwareInfo, HardwareInfoAdmin)
 
