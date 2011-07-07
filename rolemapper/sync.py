@@ -116,7 +116,7 @@ def _write_authorized_keys(outdir=settings.SSH):
 def sync_to_disk(sender=None, *args, **kwargs):
   """Do the work to make sure our changes are synced to disk."""
   updating_models = (models.TemplateVar,
-                     models.HadrwareInfo,
+                     models.HardwareInfo,
                      models.Cluster,
                      models.KickTarget)
 
