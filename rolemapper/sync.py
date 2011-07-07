@@ -113,8 +113,15 @@ def _write_authorized_keys(outdir=settings.SSH):
       logging.info('Wrote ssh/authorized_keys')
 
 
-def sync_to_disk(*args, **kwargs):
+def sync_to_disk(sender=None, *args, **kwargs):
   """Do the work to make sure our changes are synced to disk."""
+  updating_models = (models.TemplateVar,
+                     models.HadrwareInfo,
+                     models.Cluster,
+                     models.KickTarget)
+
+  if sender and sender not in updating_models:
+    return
   _write_pxelinux()
   _write_dnsmasq_conf()
   _write_dnsmasq_ethers()
