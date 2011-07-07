@@ -11,13 +11,19 @@ admin.site.register(models.TemplateVar, TemplateVarAdmin)
 
 
 class HardwareInfoAdmin(admin.ModelAdmin):
-  pass
+  list_display = ('hostname',
+                  'ip_address',
+                  'mac_address',
+                  'role',
+                  'state',
+                  'kick_target',
+                  'cluster')
 
 admin.site.register(models.HardwareInfo, HardwareInfoAdmin)
 
 
 class ClusterAdmin(admin.ModelAdmin):
-  pass
+  list_display = ('short_name', 'display_name')
 
 admin.site.register(models.Cluster, ClusterAdmin)
 

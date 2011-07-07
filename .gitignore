@@ -9,3 +9,4 @@ webapp.db
 .*.swp
 *.sqlite
 etc
+tftproot/pxelinux.cfg/01*

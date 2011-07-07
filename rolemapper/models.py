@@ -8,10 +8,13 @@ class TemplateVar(models.Model):
   key = models.CharField(max_length=80, unique=True)
   value = models.TextField()
 
+  def __str__(self):
+    return self.key
+
 
 class HardwareInfo(models.Model):
   mac_address = models.CharField(max_length=80, unique=True)
-  hardware_info = models.TextField()
+  hardware_info = models.TextField(blank=True)
 
   # TODO(termie): ipv6
   ip_address = models.CharField(max_length=16, unique=True)
@@ -26,10 +29,15 @@ class HardwareInfo(models.Model):
   kick_target = models.ForeignKey('KickTarget')
   cluster = models.ForeignKey('Cluster')
 
+  def __str__(self):
+    return self.hostname
 
 class Cluster(models.Model):
   short_name = models.CharField(max_length=40)
   display_name = models.CharField(max_length=80)
+
+  def __str__(self):
+    return self.display_name
 
 
 class KickTarget(models.Model):
@@ -40,3 +48,6 @@ class KickTarget(models.Model):
   preseed = models.CharField(max_length=255, blank=True)
   post_script = models.CharField(max_length=255, blank=True)
   firstboot = models.CharField(max_length=255, blank=True)
+
+  def __str__(self):
+    return self.name
