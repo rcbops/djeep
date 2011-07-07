@@ -31,5 +31,4 @@ admin.site.register(models.Cluster, ClusterAdmin)
 class KickTargetAdmin(admin.ModelAdmin):
   list_display = ('name', 'pxeconfig', 'preseed')
 
-
 admin.site.register(models.KickTarget, KickTargetAdmin)
