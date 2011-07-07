@@ -25,6 +25,7 @@ def home(request):
 
 
 def flat_index(request, kind):
+  """List flat files on disk."""
   if request.POST:
     name = request.POST.get('name')
     return http.HttpResponseRedirect(request.build_absolute_uri() + name)
@@ -36,6 +37,7 @@ def flat_index(request, kind):
 
 
 def flat_edit(request, kind, name):
+  """Edit an arbitrary file on disk."""
   # TODO(termie): ridiculous security hole
   source, path = static.read(kind, name)
 

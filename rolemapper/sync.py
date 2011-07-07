@@ -8,9 +8,11 @@ from django.db.models import signals
 from bleep.rolemapper import models
 
 
+# I handle writing the files to disk that need to be kept in sync with our db
+
+
 def _write_pxelinux(outdir=settings.PXELINUX):
   templatevars = models.TemplateVar.objects.all()
-
   site = dict((x.key, x.value) for x in templatevars)
   for host in models.HardwareInfo.objects.all():
     pxeconfig = host.kick_target.pxeconfig
