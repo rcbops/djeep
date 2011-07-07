@@ -6,3 +6,4 @@ pxelinux.0
 *.pyc
 .kick-venv
 webapp.db
+.*.swp

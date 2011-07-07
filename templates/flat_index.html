@@ -1,0 +1,12 @@
+
+<form action="" method="POST">
+  {% csrf_token %}
+  <label>Add</label>
+  <input type="text" name="name" />
+  <input type="submit" value="add" />
+</form>
+
+{% for item in available %}
+  <a href="{% url flat_edit kind item %}">{{item}}<a/>
+{% endfor %}
+
