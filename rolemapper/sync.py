@@ -5,7 +5,7 @@ from django.conf import settings
 from django.template import loader
 from django.db.models import signals
 
-from bleep.rolemapper import models
+from djeep.rolemapper import models
 
 
 # I handle writing the files to disk that need to be kept in sync with our db

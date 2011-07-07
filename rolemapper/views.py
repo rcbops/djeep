@@ -7,9 +7,9 @@ from django import template
 from django.conf import settings
 from django.template import loader
 
-from bleep.rolemapper import models
-from bleep.rolemapper import static
-from bleep.rolemapper import sync
+from djeep.rolemapper import models
+from djeep.rolemapper import static
+from djeep.rolemapper import sync
 
 
 class EditForm(forms.Form):

@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from bleep.rolemapper import models
-from bleep.rolemapper import sync
+from djeep.rolemapper import models
+from djeep.rolemapper import sync
 
 
 class TemplateVarAdmin(admin.ModelAdmin):

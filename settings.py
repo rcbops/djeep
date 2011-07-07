@@ -1,4 +1,4 @@
-# Django settings for bleep project.
+# Django settings for djeep project.
 import os
 
 DEBUG = True
@@ -16,7 +16,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
 
         # Or path to database file if using sqlite3.
-        'NAME': 'bleep.sqlite',
+        'NAME': 'djeep.sqlite',
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -104,7 +104,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'bleep.urls'
+ROOT_URLCONF = 'djeep.urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
