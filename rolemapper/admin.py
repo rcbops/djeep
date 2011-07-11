@@ -14,6 +14,7 @@ admin.site.register(models.TemplateVar, TemplateVarAdmin)
 class HardwareInfoAdmin(admin.ModelAdmin):
   list_display = ('hostname',
                   'ip_address',
+                  'ipmi_ip',
                   'mac_address',
                   'role',
                   'state',
