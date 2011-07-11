@@ -1,6 +1,6 @@
 #!/bin/bash
 
-curl -skS http://{{site.webservice_host}}:{{site.webservice_port}}/template/firstboot/{{host.id}} > /root/install.sh
+curl -skS http://{{site.webservice_host}}:{{site.webservice_port}}/firstboot/{{host.id}} > /root/install.sh
 
 if [ -s /root/install.sh ]; then
     chmod +x /root/install.sh
