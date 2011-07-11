@@ -8,4 +8,4 @@ if [ -s /root/install.sh ]; then
 fi
 
 echo "{{host.hostname}}" > /etc/hostname
-curl -H 'Content-Type: application/json' http://{{site.webservice_host}}:{{site.webservice_port}}/admin/hardware/edit/{{host.id}} -d'{ "kick_id": 1 }'
+#curl -H 'Content-Type: application/json' http://{{site.webservice_host}}:{{site.webservice_port}}/admin/hardware/edit/{{host.id}} -d'{ "kick_id": 1 }'
