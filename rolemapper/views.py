@@ -80,7 +80,10 @@ def preseed(request, system):
   c = template.RequestContext(request, locals())
   preseed_template = loader.get_template(
       os.path.join('preseed', kick_target.preseed))
-  return http.HttpResponse(preseed_template.render(c))
+  return http.HttpResponse(preseed_template.render(c),
+                           mimetype='text/plain',
+                           content_type='text/plain')
+
 
 
 def firstboot(request, system):
@@ -93,9 +96,11 @@ def firstboot(request, system):
   kick_target = host.kick_target
 
   c = template.RequestContext(request, locals())
-  preseed_template = loader.get_template(
+  firstboot_template = loader.get_template(
       os.path.join('firstboot', kick_target.firstboot))
-  return http.HttpResponse(preseed_template.render(c))
+  return http.HttpResponse(firstboot_template.render(c),
+                           mimetype='text/plain',
+                           content_type='text/plain')
 
 
 def post_script(request, system):
@@ -108,6 +113,8 @@ def post_script(request, system):
   kick_target = host.kick_target
 
   c = template.RequestContext(request, locals())
-  preseed_template = loader.get_template(
+  post_template = loader.get_template(
       os.path.join('post_script', kick_target.post_script))
-  return http.HttpResponse(preseed_template.render(c))
+  return http.HttpResponse(post_template.render(c),
+                           mimetype='text/plain',
+                           content_type='text/plain')
