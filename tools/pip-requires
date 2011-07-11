@@ -3,3 +3,4 @@ django
 eventlet
 pycrypto
 paramiko
+-e hg+https://bitbucket.org/jespern/django-piston#egg=django-piston

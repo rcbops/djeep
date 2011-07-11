@@ -16,14 +16,14 @@ urlpatterns = patterns('',
     url(r'^firstboot/(?P<system>\d+)$', 'djeep.rolemapper.views.firstboot',
         name='firstboot'),
 
-
-
     url(r'^flat/(?P<kind>[^/]+)/$', 'djeep.rolemapper.views.flat_index',
         name='flat_index'),
-
     url(r'^flat/(?P<kind>[^/]+)/(?P<name>[^/]+)$',
         'djeep.rolemapper.views.flat_edit',
         name='flat_edit'),
+
+    # Include the API
+    url(r'^api/', include('djeep.api.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
