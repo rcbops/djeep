@@ -19,6 +19,7 @@ class HardwareInfoAdmin(admin.ModelAdmin):
                   'state',
                   'kick_target',
                   'cluster')
+  ordering = ['hostname']
 
   actions = ['reboot']
   def reboot(self, request, queryset):
