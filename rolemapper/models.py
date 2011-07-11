@@ -29,8 +29,11 @@ class HardwareInfo(models.Model):
   kick_target = models.ForeignKey('KickTarget')
   cluster = models.ForeignKey('Cluster')
 
+  ipmi_ip = models.CharField(max_length=16, blank=True)
+
   def __str__(self):
     return self.hostname
+
 
 class Cluster(models.Model):
   short_name = models.CharField(max_length=40)
