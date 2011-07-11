@@ -6,7 +6,6 @@ from piston.utils import rc
 from rolemapper import models
 
 #class BaseHandler(handler.BaseHandler):
-
 #  def update(self, request, *args, **kwargs):
 #    if not self.has_model():
 #      return rc.NOT_IMPLEMENTED
@@ -25,6 +24,7 @@ from rolemapper import models
 #      return rc.BAD_REQUEST
 
 #    attrs = self.flatten_dict(request.data)
+#    print attrs
 #    for k,v in attrs.iteritems():
 #      setattr(inst, k, v)
 
@@ -34,11 +34,3 @@ from rolemapper import models
 class HardwareInfoHandler(handler.BaseHandler):
   allowed_methods = ('GET', 'PUT')
   model = models.HardwareInfo
-
-  #def read(self, request, hardware_id=None):
-  #  base = models.HardwareInfo.objects
-
-  #  if hardware_id:
-  #    return base.get(pk=hardware_id)
-  #  else:
-  #    return base.all()
