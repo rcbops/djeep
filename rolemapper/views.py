@@ -63,11 +63,11 @@ def flat_edit(request, kind, name):
 
 def preseed(request, system):
   """Provide the preseed file for a given instance."""
-  templatevars = models.TemplateVar.objects.all()
+  templatevars = models.Config.objects.all()
   site = dict((x.key, x.value) for x in templatevars)
 
   # lookup which preseed template to use
-  host = models.HardwareInfo.objects.get(pk=system)
+  host = models.Host.objects.get(pk=system)
   kick_target = host.kick_target
 
   # TODO(termie): the defaults should probably be in settings.py
@@ -85,14 +85,13 @@ def preseed(request, system):
                            content_type='text/plain')
 
 
-
 def firstboot(request, system):
   """Provide the firstboot file for a given instance."""
-  templatevars = models.TemplateVar.objects.all()
+  templatevars = models.Config.objects.all()
   site = dict((x.key, x.value) for x in templatevars)
 
   # lookup which preseed template to use
-  host = models.HardwareInfo.objects.get(pk=system)
+  host = models.Host.objects.get(pk=system)
   kick_target = host.kick_target
 
   c = template.RequestContext(request, locals())
@@ -105,11 +104,11 @@ def firstboot(request, system):
 
 def post_script(request, system):
   """Provide the post_script file for a given instance."""
-  templatevars = models.TemplateVar.objects.all()
+  templatevars = models.Config.objects.all()
   site = dict((x.key, x.value) for x in templatevars)
 
   # lookup which preseed template to use
-  host = models.HardwareInfo.objects.get(pk=system)
+  host = models.Host.objects.get(pk=system)
   kick_target = host.kick_target
 
   c = template.RequestContext(request, locals())

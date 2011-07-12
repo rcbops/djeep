@@ -1,4 +1,4 @@
 
 
-def reboot(hardware):
+def reboot(host):
   pass

@@ -31,6 +31,6 @@ from rolemapper import models
 #    inst.save()
 #    return rc.ALL_OK
 
-class HardwareInfoHandler(handler.BaseHandler):
+class HostHandler(handler.BaseHandler):
   allowed_methods = ('GET', 'PUT')
-  model = models.HardwareInfo
+  model = models.Host

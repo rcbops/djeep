@@ -1,0 +1,28 @@
+- model: rolemapper.cluster
+  pk: 1
+  fields:
+    short_name: test
+    display_name: test
+
+- model: rolemapper.config
+  pk: 4
+  fields:
+    key: cluster_specific_key
+    value: cluster_specific_value
+    description: cluster specific key
+    cluster: 1
+
+- model: rolemapper.host
+  pk: 1
+  fields:
+    mac_address: 12:34:56:78:90:AB
+    hostname: demo1
+    ip_address: 10.0.0.2
+    netmask: 255.255.255.0
+    gateway: 10.0.0.1
+    ipmi_ip: 10.1.0.2
+    state: managed
+    role: 1
+    cluster: 1
+    kick_target: 1
+

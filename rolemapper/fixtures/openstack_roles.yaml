@@ -1,0 +1,47 @@
+- model: rolemapper.role
+  pk: 1
+  fields:
+    name: nova-infra
+    description: various nova infratructure
+
+- model: rolemapper.role
+  pk: 2
+  fields:
+    name: nova-compute
+    description: compute host
+
+- model: rolemapper.role
+  pk: 3
+  fields:
+    name: swift-proxy
+    description: swift proxy
+
+- model: rolemapper.rolemap
+  pk: 1
+  fields:
+    role: 1
+    name: some_nova_role
+
+- model: rolemapper.rolemap
+  pk: 2
+  fields:
+    role: 1
+    name: some_nova_role2
+
+- model: rolemapper.rolemap
+  pk: 3
+  fields:
+    role: 2
+    name: some_nova_role
+
+- model: rolemapper.rolemap
+  pk: 4
+  fields:
+    role: 2
+    name: some_nova_role3
+
+- model: rolemapper.rolemap
+  pk: 5
+  fields:
+    role: 3
+    name: some_swift_role2

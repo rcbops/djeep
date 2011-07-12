@@ -1,4 +1,5 @@
 import functools
+import json
 import logging
 import os
 
@@ -26,11 +27,11 @@ def _ensure_dir(d):
 
 def _write_pxelinux(outdir=settings.PXELINUX):
   _ensure_dir(outdir)
-  templatevars = models.TemplateVar.objects.all()
+  templatevars = models.Config.objects.all()
   site = dict((x.key, x.value) for x in templatevars)
   # TODO(termie): clear out old files
 
-  for host in models.HardwareInfo.objects.all():
+  for host in models.Host.objects.all():
     pxeconfig = host.kick_target.pxeconfig
 
     c = template.Context(locals())
@@ -43,7 +44,7 @@ def _write_pxelinux(outdir=settings.PXELINUX):
 
 def _write_dnsmasq_conf(outdir=settings.ETC):
   _ensure_dir(outdir)
-  templatevars = models.TemplateVar.objects.all()
+  templatevars = models.Config.objects.all()
   site = dict((x.key, x.value) for x in templatevars)
   tftproot = settings.TFTPROOT
 
@@ -57,9 +58,9 @@ def _write_dnsmasq_conf(outdir=settings.ETC):
 
 def _write_dnsmasq_ethers(outdir=settings.ETC):
   _ensure_dir(outdir)
-  templatevars = models.TemplateVar.objects.all()
+  templatevars = models.Config.objects.all()
   site = dict((x.key, x.value) for x in templatevars)
-  hosts = models.HardwareInfo.objects.all()
+  hosts = models.Host.objects.all()
 
   c = template.Context(locals())
   t = loader.get_template(os.path.join('etc', 'ethers'))
@@ -71,9 +72,9 @@ def _write_dnsmasq_ethers(outdir=settings.ETC):
 
 def _write_dnsmasq_hosts(outdir=settings.ETC):
   _ensure_dir(outdir)
-  templatevars = models.TemplateVar.objects.all()
+  templatevars = models.Config.objects.all()
   site = dict((x.key, x.value) for x in templatevars)
-  hosts = models.HardwareInfo.objects.all()
+  hosts = models.Host.objects.all()
 
   c = template.Context(locals())
   t = loader.get_template(os.path.join('etc', 'hosts'))
@@ -113,10 +114,50 @@ def _write_authorized_keys(outdir=settings.SSH):
       logging.info('Wrote ssh/authorized_keys')
 
 
+def _write_puppet_clusters(outdir=settings.PUPPET_CLUSTERS):
+  _ensure_dir(outdir)
+  global_config = models.Config.objects.filter(cluster=None)
+  global_config = dict((x.key, x.value) for x in global_config)
+
+  for cluster in models.Cluster.objects.all():
+    cluster_config = models.Config.objects.filter(cluster=cluster)
+    cluster_config = dict((x.key, x.value) for x in cluster_config)
+
+    options = global_config.copy()
+    options.update(cluster_config)
+
+    outfile = os.path.join(outdir, '%s' % cluster.short_name)
+    with open(outfile, 'w') as out:
+      out.write(json.dumps({'options': options}, indent=2))
+      logging.info('Wrote Puppet cluster for: %s', cluster.short_name)
+
+
+def _write_puppet_hosts(outdir=settings.PUPPET_HOSTS):
+  _ensure_dir(outdir)
+
+  #role_list = models.Role.objects.all()
+  #role_list = dict((x.id, x.name) for x in role_list)
+
+  role_map = models.RoleMap.objects.all()
+  roles = {}
+  for x in role_map:
+    #role_name = role_list[x.role_id]
+    mapped = roles.get(x.role_id, [])
+    mapped.append(x.name)
+    roles[x.role_id] = mapped
+
+  for host in models.Host.objects.all():
+    classes = roles[host.role_id]
+    outfile = os.path.join(outdir, '%s' % host.hostname)
+    with open(outfile, 'w') as out:
+      out.write(json.dumps({'classes': classes}, indent=2))
+      logging.info('Wrote Puppet host for: %s', host.hostname)
+
+
 def sync_to_disk(sender=None, *args, **kwargs):
   """Do the work to make sure our changes are synced to disk."""
-  updating_models = (models.TemplateVar,
-                     models.HardwareInfo,
+  updating_models = (models.Config,
+                     models.Host,
                      models.Cluster,
                      models.KickTarget)
 
@@ -128,6 +169,8 @@ def sync_to_disk(sender=None, *args, **kwargs):
   _write_dnsmasq_hosts()
   _write_ssh_key()
   _write_authorized_keys()
+  _write_puppet_clusters()
+  _write_puppet_hosts()
 
 
 signals.post_save.connect(sync_to_disk)

@@ -5,10 +5,10 @@ from piston import resource
 from djeep.api import handlers
 
 
-hardware_handler = resource.Resource(handlers.HardwareInfoHandler)
-hardware_handler = csrf.csrf_exempt(hardware_handler)
+host_handler = resource.Resource(handlers.HostHandler)
+host_handler = csrf.csrf_exempt(host_handler)
 
 urlpatterns = patterns('',
-    url(r'^hardware/(?P<id>\d+)', hardware_handler),
-    url(r'^hardware/', hardware_handler),
+    url(r'^host/(?P<id>\d+)', host_handler),
+    url(r'^host/', host_handler),
 )

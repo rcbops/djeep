@@ -1,37 +1,23 @@
+from django import forms
 from django.contrib import admin
+from django.db import models as django_models
 
 from djeep.rolemapper import models
 from djeep.rolemapper import remote
 from djeep.rolemapper import sync
 
 
-class TemplateVarAdmin(admin.ModelAdmin):
-  pass
+class ConfigAdmin(admin.ModelAdmin):
+  list_display = ('key', 'value', 'cluster')
+  list_editable = ('value', 'cluster')
+  list_filter = ('cluster', )
+  ordering = ('key',)
 
-admin.site.register(models.TemplateVar, TemplateVarAdmin)
+  formfield_overrides = {
+      django_models.TextField: {'widget': forms.TextInput(attrs={'size': 100})}
+  }
 
-
-class HardwareInfoAdmin(admin.ModelAdmin):
-  list_display = ('hostname',
-                  'ip_address',
-                  'ipmi_ip',
-                  'mac_address',
-                  'role',
-                  'state',
-                  'kick_target',
-                  'cluster')
-  ordering = ['hostname']
-
-  actions = ['reboot']
-  def reboot(self, request, queryset):
-    for hardware in queryset:
-      remote.reboot(hardware)
-
-    self.message_user(request, 'Rebooted %s machines.' % len(queryset))
-
-  reboot.short_description = 'Reboot selected hardware'
-
-admin.site.register(models.HardwareInfo, HardwareInfoAdmin)
+admin.site.register(models.Config, ConfigAdmin)
 
 
 class ClusterAdmin(admin.ModelAdmin):
@@ -40,7 +26,47 @@ class ClusterAdmin(admin.ModelAdmin):
 admin.site.register(models.Cluster, ClusterAdmin)
 
 
+class HostAdmin(admin.ModelAdmin):
+  list_display = ('hostname',
+                  'ip_address',
+                  'ipmi_ip',
+                  'mac_address',
+                  'role',
+                  'state',
+                  'kick_target',
+                  'cluster')
+
+  ordering = ['hostname']
+
+  actions = ['reboot']
+
+
+  def reboot(self, request, queryset):
+    for host in queryset:
+      remote.reboot(host)
+
+    self.message_user(request, 'Rebooted %s machines.' % len(queryset))
+
+  reboot.short_description = 'Reboot selected host'
+
+admin.site.register(models.Host, HostAdmin)
+
+
 class KickTargetAdmin(admin.ModelAdmin):
   list_display = ('name', 'pxeconfig', 'preseed')
 
 admin.site.register(models.KickTarget, KickTargetAdmin)
+
+
+class RoleAdmin(admin.ModelAdmin):
+  list_display = ('id', 'name', 'description')
+  list_editable = ('name', )
+
+admin.site.register(models.Role, RoleAdmin)
+
+
+class RoleMapAdmin(admin.ModelAdmin):
+  list_display = ('id', 'role', 'name')
+  list_editable = ('role', 'name')
+
+admin.site.register(models.RoleMap, RoleMapAdmin)
