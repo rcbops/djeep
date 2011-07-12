@@ -8,6 +8,10 @@ pxelinux.0
 webapp.db
 .*.swp
 *.sqlite
-etc
+etc/puppet/hosts
+etc/puppet/clusters
+etc/dnsmasq.conf
+etc/ethers
+etc/hosts
 tftproot/pxelinux.cfg/01*
 ssh

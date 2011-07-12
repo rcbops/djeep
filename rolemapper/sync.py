@@ -149,20 +149,27 @@ def _write_puppet_hosts(outdir=settings.PUPPET_HOSTS):
   for host in models.Host.objects.all():
     classes = roles[host.role_id]
     outfile = os.path.join(outdir, '%s' % host.hostname)
+    content = {'classes': classes,
+               'options': {'cluster': host.cluster.short_name}
+               }
+
     with open(outfile, 'w') as out:
-      out.write(json.dumps({'classes': classes}, indent=2))
+      out.write(json.dumps(content, indent=2))
       logging.info('Wrote Puppet host for: %s', host.hostname)
 
 
 def sync_to_disk(sender=None, *args, **kwargs):
   """Do the work to make sure our changes are synced to disk."""
   updating_models = (models.Config,
-                     models.Host,
                      models.Cluster,
-                     models.KickTarget)
+                     models.Host,
+                     models.KickTarget,
+                     models.Role,
+                     models.RoleMap)
 
   if sender and sender not in updating_models:
     return
+
   _write_pxelinux()
   _write_dnsmasq_conf()
   _write_dnsmasq_ethers()
