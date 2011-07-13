@@ -136,19 +136,15 @@ def _write_puppet_clusters(outdir=settings.PUPPET_CLUSTERS):
 def _write_puppet_hosts(outdir=settings.PUPPET_HOSTS):
   _ensure_dir(outdir)
 
-  #role_list = models.Role.objects.all()
-  #role_list = dict((x.id, x.name) for x in role_list)
-
   role_map = models.RoleMap.objects.all()
   roles = {}
   for x in role_map:
-    #role_name = role_list[x.role_id]
     mapped = roles.get(x.role_id, [])
     mapped.append(x.name)
     roles[x.role_id] = mapped
 
   for host in models.Host.objects.all():
-    classes = roles[host.role_id]
+    classes = roles.get(host.role_id, [])
     options = {'cluster': host.cluster.short_name,
                'host_ip_address': host.ip_address,
                'host_mac_address': host.mac_address,

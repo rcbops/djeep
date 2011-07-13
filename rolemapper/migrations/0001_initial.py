@@ -11,7 +11,7 @@ class Migration(SchemaMigration):
         # Adding model 'Config'
         db.create_table('rolemapper_config', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('key', self.gf('django.db.models.fields.CharField')(unique=True, max_length=80)),
+            ('key', self.gf('django.db.models.fields.CharField')(max_length=80)),
             ('value', self.gf('django.db.models.fields.TextField')()),
             ('cluster', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['rolemapper.Cluster'], null=True, blank=True)),
             ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
@@ -105,7 +105,7 @@ class Migration(SchemaMigration):
             'cluster': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['rolemapper.Cluster']", 'null': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'key': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '80'}),
+            'key': ('django.db.models.fields.CharField', [], {'max_length': '80'}),
             'value': ('django.db.models.fields.TextField', [], {})
         },
         'rolemapper.host': {
