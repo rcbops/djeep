@@ -18,7 +18,8 @@ def main(hostname):
   classes = cluster_info.get('classes', [])[:]
   classes.extend(host_info.get('classes', []))
 
-  print json.dumps({'options': options, 'classes': list(set(classes))})
+  print json.dumps({'options': options, 'classes': list(set(classes))},
+                   indent=2)
 
 
 if __name__ == '__main__':
