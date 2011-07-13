@@ -148,9 +148,16 @@ def _write_puppet_hosts(outdir=settings.PUPPET_HOSTS):
 
   for host in models.Host.objects.all():
     classes = roles[host.role_id]
+    options = {'cluster': host.cluster.short_name,
+               'host_ip_address': host.ip_address,
+               'host_mac_address': host.mac_address,
+               'host_gateway': host.gateway,
+               'host_netmask': host.netmask,
+               'host_hostname': host.hostname,
+               }
     outfile = os.path.join(outdir, '%s' % host.hostname)
     content = {'classes': classes,
-               'options': {'cluster': host.cluster.short_name}
+               'options': options,
                }
 
     with open(outfile, 'w') as out:
