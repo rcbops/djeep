@@ -16,32 +16,32 @@
     name: swift-proxy
     description: swift proxy
 
+- model: rolemapper.role
+  pk: 4
+  fields:
+    name: swift-storage
+    description: swift proxy
+
 - model: rolemapper.rolemap
   pk: 1
   fields:
     role: 1
-    name: some_nova_role
+    name: nova-infra-node
 
 - model: rolemapper.rolemap
   pk: 2
   fields:
-    role: 1
-    name: some_nova_role2
+    role: 2
+    name: nova-compute-node
 
 - model: rolemapper.rolemap
   pk: 3
   fields:
-    role: 2
-    name: some_nova_role
+    role: 3
+    name: swift-proxy-node
 
 - model: rolemapper.rolemap
   pk: 4
   fields:
-    role: 2
-    name: some_nova_role3
-
-- model: rolemapper.rolemap
-  pk: 5
-  fields:
-    role: 3
-    name: some_swift_role2
+    role: 4
+    name: swift-storage-node
