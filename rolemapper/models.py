@@ -6,7 +6,7 @@ from django.db import models
 # Create your models here.
 
 class Config(models.Model):
-  key = models.CharField(max_length=80, unique=True)
+  key = models.CharField(max_length=80)
   value = models.TextField()
   cluster = models.ForeignKey('Cluster', blank=True, null=True)
   description = models.TextField(blank=True)
