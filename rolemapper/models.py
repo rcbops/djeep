@@ -9,7 +9,7 @@ class Config(models.Model):
   key = models.CharField(max_length=80, unique=True)
   value = models.TextField()
   cluster = models.ForeignKey('Cluster', blank=True, null=True)
-  description = models.TextField()
+  description = models.TextField(blank=True)
 
   def __str__(self):
     return self.key
@@ -64,6 +64,7 @@ class Role(models.Model):
 
   def __str__(self):
     return self.name
+
 
 class RoleMap(models.Model):
   """Maps roles to actual puppet classes."""
