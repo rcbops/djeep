@@ -2,6 +2,7 @@ import functools
 import json
 import logging
 import os
+import subprocess
 
 from django import template
 from django.conf import settings
@@ -165,6 +166,15 @@ def _write_puppet_hosts(outdir=settings.PUPPET_HOSTS):
       logging.info('Wrote Puppet host for: %s', host.hostname)
 
 
+def _kick_dnsmasq():
+  command = ['/etc/init.d/dnsmasq', 'restart']
+  try:
+    subprocess.check_call(command)
+  except Exception:
+    logging.exception('in kick dnsmasq')
+
+
+
 def sync_to_disk(sender=None, *args, **kwargs):
   """Do the work to make sure our changes are synced to disk."""
   updating_models = (models.Config,
@@ -185,6 +195,7 @@ def sync_to_disk(sender=None, *args, **kwargs):
   _write_authorized_keys()
   _write_puppet_clusters()
   _write_puppet_hosts()
+  _kick_dnsmasq()
 
 
 signals.post_save.connect(sync_to_disk)
