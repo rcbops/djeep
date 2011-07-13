@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/usr/bin/env python
 import json
 import os
 
@@ -18,7 +18,7 @@ def main(hostname):
   classes = cluster_info.get('classes', [])[:]
   classes.extend(host_info.get('classes', []))
 
-  print json.dumps({'options': options, 'classes': list(set(classes))},
+  print json.dumps({'parameters': options, 'classes': list(set(classes))},
                    indent=2)
 
 
