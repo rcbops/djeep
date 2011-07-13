@@ -33,7 +33,10 @@ class Host(models.Model):
   hostname = models.CharField(max_length=255, unique=True)
   netmask = models.CharField(max_length=16)
 
-  state = models.CharField(max_length=255, default='unmanaged')
+  state = models.CharField(max_length=255,
+                           default='unmanaged',
+                           choices=(('managed', 'managed'),
+                                    ('unmanaged', 'unmanaged')))
 
   role = models.ForeignKey('Role')
   kick_target = models.ForeignKey('KickTarget')
