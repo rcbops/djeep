@@ -12,7 +12,6 @@ class ConfigAdmin(admin.ModelAdmin):
   list_editable = ('value', 'cluster')
   list_filter = ('cluster', )
   ordering = ('key',)
-
   formfield_overrides = {
       django_models.TextField: {'widget': forms.TextInput(attrs={'size': 100})}
   }
@@ -37,9 +36,8 @@ class HostAdmin(admin.ModelAdmin):
                   'kick_target',
                   'cluster')
   list_editable = ('kick_target', 'role')
-
+  list_filter = ('cluster',)
   ordering = ['hostname']
-
   actions = ['reboot']
 
   def ipmi_ip_link(self, inst):
