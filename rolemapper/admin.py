@@ -44,7 +44,7 @@ class ConfigAdmin(admin.ModelAdmin):
         messages.error(request, "Cluster '%s' not found" % clone_to)
       pass
 
-  clone_config.short_description = 'Clone To Other Cluster'
+  clone_config.short_description = 'Clone selected configs to other cluster'
   actions = [clone_config]
 
 admin.site.register(models.Config, ConfigAdmin)
