@@ -101,6 +101,7 @@ class RoleAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Role, RoleAdmin)
 
+
 class RoleMapAdmin(admin.ModelAdmin):
   list_display = ('id', 'role', 'name')
   list_editable = ('role', 'name')
