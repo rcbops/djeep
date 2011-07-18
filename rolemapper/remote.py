@@ -6,7 +6,7 @@ from django.conf import settings
 
 def reboot(host):
   command = ['/usr/bin/ipmitool',
-             '-H', host.ip_address,
+             '-H', host.ipmi_ip,
              '-U', settings.IPMI_USER,
              '-P', settings.IPMI_PASSWORD,
              'power', 'cycle']
