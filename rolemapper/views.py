@@ -27,7 +27,6 @@ def home(request):
   for c in clusters:
     c.hosts = sorted(list(c.host_set.all()), key=lambda x: x.hostname)
 
-
   c = template.RequestContext(request, locals())
   t = loader.get_template('home.html')
   return http.HttpResponse(t.render(c))
