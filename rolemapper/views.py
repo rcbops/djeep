@@ -12,18 +12,28 @@ from djeep.rolemapper import static
 from djeep.rolemapper import sync
 
 
+from django.contrib.auth.decorators import login_required
+
+
 class EditForm(forms.Form):
   content = forms.CharField(
       widget=forms.Textarea(attrs={'rows': 60, 'cols': 80}))
   path = forms.CharField(max_length=100, widget=forms.HiddenInput)
 
 
+@login_required
 def home(request):
+  clusters = models.Cluster.objects.all()
+  for c in clusters:
+    c.hosts = sorted(list(c.host_set.all()), key=lambda x: x.hostname)
+
+
   c = template.RequestContext(request, locals())
   t = loader.get_template('home.html')
   return http.HttpResponse(t.render(c))
 
 
+@login_required
 def flat_index(request, kind):
   """List flat files on disk."""
   if request.POST:
@@ -36,6 +46,7 @@ def flat_index(request, kind):
   return http.HttpResponse(t.render(c))
 
 
+@login_required
 def flat_edit(request, kind, name):
   """Edit an arbitrary file on disk."""
   # TODO(termie): ridiculous security hole
