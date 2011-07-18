@@ -1,0 +1,30 @@
+{% extends "admin/change_list.html" %}
+
+{% block extrahead %}
+{{ block.super }}
+<script>
+(function($) {
+    $(document).ready(function($) {
+        $("div.actions").append($("#clone_input"));
+        $("div.actions select").change( function() {
+            if (this.value == "clone_config") {
+                $("#clone_input").show().focus()
+                $("#clone_input input").focus()
+            }
+            else {
+                $("#clone_input").hide()
+            }
+        });
+    });
+})(django.jQuery);
+</script>
+{% endblock %}
+
+{% block content %}
+{{ block.super }}
+<!-- This little blob gets moved into the actions drop-down area -->
+<div style="display: none" id="clone_input">
+  <label for="clone_to">Cluster Name:</label>
+  <input type="text" name="clone_to"/>
+</div>
+{% endblock %}
