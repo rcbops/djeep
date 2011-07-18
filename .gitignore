@@ -15,3 +15,4 @@ etc/ethers
 etc/hosts
 tftproot/pxelinux.cfg/01*
 ssh
+local_settings.py

@@ -177,3 +177,12 @@ SSH = os.path.join(ROOT, 'ssh')
 PUPPET = os.path.join(ETC, 'puppet')
 PUPPET_HOSTS = os.path.join(PUPPET, 'hosts')
 PUPPET_CLUSTERS = os.path.join(PUPPET, 'clusters')
+
+# IPMI related stuff, should probably move to being per-machine config
+IPMI_USER = 'root'
+IPMI_PASSWORD = 'password'
+
+try:
+  from local_settings import *
+except ImportError:
+  pass
