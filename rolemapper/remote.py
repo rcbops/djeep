@@ -5,14 +5,16 @@ from django.conf import settings
 
 
 def _build_ipmi_command(host, *args):
-  command = ['/usr/bin/ipmitool',
-             '-H', host.ipmi_ip,
-             '-U', settings.IPMI_USER,
-             '-P', settings.IPMI_PASSWORD] + args
+  return  ['/usr/bin/ipmitool',
+           '-H', host.ipmi_ip,
+           '-U', settings.IPMI_USER,
+           '-P', settings.IPMI_PASSWORD] + list(args)
 
 
 def reboot(host):
-  command = _build_ipmi_command(host, 'power', 'cycle')
+  # 'reset' performs a cold reboot, which is necessary for pxe booting to work
+  # 'cycle' was not sufficient
+  command = _build_ipmi_command(host, 'power', 'reset')
   logging.info('Rebooting: %s', host.hostname)
   try:
     subprocess.check_call(command)
@@ -26,6 +28,6 @@ def pxe_reboot(host):
   try:
     subprocess.check_call(command)
   except Exception:
-    logging.exception('in reboot host: %s', host.hostname)
+    logging.exception('in pxe_reboot host: %s', host.hostname)
 
   reboot(host)
