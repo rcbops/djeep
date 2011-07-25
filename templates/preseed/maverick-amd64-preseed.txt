@@ -316,6 +316,9 @@ d-i pkgsel/include string openssh-server
 # Allowed values: none, safe-upgrade, full-upgrade
 #d-i pkgsel/upgrade select none
 
+# Reverting to grub1
+d-i grub-installer/grub2_instead_of_grub_legacy boolean false
+
 # Some versions of the installer can report back on what software you have
 # installed, and what software you use. The default is not to report back,
 # but sending reports helps the project determine what software is most
