@@ -69,7 +69,7 @@ class HostAdmin(admin.ModelAdmin):
   list_editable = ('kick_target', 'role')
   list_filter = ('cluster',)
   ordering = ['hostname']
-  actions = ['reboot']
+  actions = ['reboot', 'pxe_reboot']
 
   def ipmi_ip_link(self, inst):
     return '<a href="http://%s">%s</a>' % (inst.ipmi_ip, inst.ipmi_ip)
@@ -85,6 +85,14 @@ class HostAdmin(admin.ModelAdmin):
     self.message_user(request, 'Rebooted %s machines.' % len(queryset))
 
   reboot.short_description = 'Reboot selected host'
+
+  def pxe_reboot(self, request, queryset):
+    for host in queryset:
+      remote.pxe_reboot(host)
+
+    self.message_user(request, 'PXE Rebooted %s machines.' % len(queryset))
+
+  pxe_reboot.short_description = 'PXE Reboot selected host'
 
 admin.site.register(models.Host, HostAdmin)
 
