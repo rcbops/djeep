@@ -27,6 +27,23 @@ We'll want to add some fixtures: https://docs.djangoproject.com/en/1.3/howto/ini
 To mess with how the data is displayed in the admin: https://docs.djangoproject.com/en/1.3/ref/contrib/admin/
 
 
+Actions Somebody Might Want To Do With A Cluster
+------------------------------------------------
+
+ * Re-deploy
+ * Claim/Lock so that other people do not re-deploy
+ * Free to tell others it is free to use
+ * Notifications of beginning / end of redeploy
+
+
+Actions Somebody Might Want To Do With A Host
+---------------------------------------------
+
+ * Reboot
+ * Re-assign to a new cluster
+ * Notifications when reboot complete
+
+
 
 TODO
 ----
