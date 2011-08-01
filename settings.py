@@ -169,6 +169,8 @@ LOGGING = {
 }
 
 
+LOGIN_URL = '/admin/'
+
 ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__)))
 TFTPROOT = os.path.join(ROOT, 'tftproot')
 PXELINUX = os.path.join(TFTPROOT, 'pxelinux.cfg')
