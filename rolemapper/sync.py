@@ -207,7 +207,6 @@ def sync_to_disk(sender=None, *args, **kwargs):
     logging.debug('Starting sync_to_disk batch')
     SYNC_EVENT = event.Event()
 
-
   def _wait(sem, waiter):
     sem.acquire()
     eventlet.sleep(settings.SYNC_DELAY)
@@ -238,6 +237,7 @@ def sync_to_disk(sender=None, *args, **kwargs):
     _kick_dnsmasq()
 
   eventlet.spawn(_do)
+
 
 signals.post_save.connect(sync_to_disk)
 signals.post_delete.connect(sync_to_disk)

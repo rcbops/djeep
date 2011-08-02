@@ -51,8 +51,8 @@ General Hoped For Functionality
  * Template-ability of values.
    * Would be nice to express something like "the api endpoint is the ip of
      the machine with the nova-infra role"... something like: api_endpoint={{ roles[nova-infra][0].ip }} ... ish
- * More optimized updates, for batch updates don't rekick and rewrite until
-   they've all been updated.
+ * (DONE) More optimized updates, for batch updates don't rekick and rewrite
+   until they've all been updated.
  * Configure global and cluster configs separately.
 
 TODO
