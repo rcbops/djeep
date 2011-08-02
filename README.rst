@@ -34,7 +34,8 @@ Actions Somebody Might Want To Do With A Cluster
  * Claim/Lock so that other people do not re-deploy
  * Free to tell others it is free to use
  * Notifications of beginning / end of redeploy
-
+ * Generate munin config files, specifically the per-cluster list of nodes.
+ * Manage a puppet server per-cluster
 
 Actions Somebody Might Want To Do With A Host
 ---------------------------------------------
@@ -42,8 +43,17 @@ Actions Somebody Might Want To Do With A Host
  * Reboot
  * Re-assign to a new cluster
  * Notifications when reboot complete
+ * Per-host overrides of key-value pairs
 
+General Hoped For Functionality
+-------------------------------
 
+ * Template-ability of values.
+   * Would be nice to express something like "the api endpoint is the ip of
+     the machine with the nova-infra role"... something like: api_endpoint={{ roles[nova-infra][0].ip }} ... ish
+ * More optimized updates, for batch updates don't rekick and rewrite until
+   they've all been updated.
+ * Configure global and cluster configs separately.
 
 TODO
 ----
