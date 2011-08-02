@@ -17,7 +17,7 @@ We use South for migrations, you'll probably do something like::
 
   python manage.py syncdb
   python manage.py migrate
-  python manage.py runserver 8080
+  python manage.py runeventlet 8080
 
 
 That will ask you to make an admin user, you'll use that to get into the admin.
