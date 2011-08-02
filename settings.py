@@ -184,6 +184,9 @@ PUPPET_CLUSTERS = os.path.join(PUPPET, 'clusters')
 IPMI_USER = 'root'
 IPMI_PASSWORD = 'password'
 
+# Seconds to wait for batched changes to complete before syncing files to disk
+SYNC_DELAY = 0.1
+
 try:
   from local_settings import *
 except ImportError:
