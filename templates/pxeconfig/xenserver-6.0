@@ -1,0 +1,9 @@
+default menu.c32
+prompt 0
+menu title PXE Boot
+timeout 100
+
+LABEL openstack-install
+    menu label {{host.kick_target.name}}
+    KERNEL xenserver/6.0/boot/pxelinux/mboot.c32
+    APPEND {{host.kick_target.initrd}} watchdog com1=115200,8n1 console=com1,tty --- {{host.kick_target.kernel}} root=/dev/ram0 console=tty0 ram disk_size=65536 install answerfile=http://{{site.webservice_host}}:{{site.webservice_port}}/preseed/{{host.id}} answerfile_device=eth0 --- xenserver/6.0/install.img

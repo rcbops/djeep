@@ -1,0 +1,4 @@
+# To use XenServer you will need to download the appropriate ISOs and copy
+# their contents to directories named 5.6-fp2 and 6.0, respectfully. E.g.:
+
+cp /xenserver-6.0 ./6.0  # with great praise unto you, xenserver

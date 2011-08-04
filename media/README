@@ -1,0 +1,4 @@
+# If using xenserver, you need the following symlinks:
+
+ln -s ../tftproot/xenserver/5.6-fp2 xenserver-5.6-fp2
+ln -s ../tftproot/xenserver/6.0 xenserver-6.0
