@@ -40,6 +40,7 @@ class Host(models.Model):
 
   role = models.ForeignKey('Role')
   kick_target = models.ForeignKey('KickTarget')
+  local_boot = models.BooleanField(default=True)
   cluster = models.ForeignKey('Cluster')
 
   ipmi_ip = models.CharField(max_length=16, blank=True)

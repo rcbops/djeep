@@ -41,7 +41,11 @@ def _write_pxelinux(outdir=settings.PXELINUX):
   # TODO(termie): clear out old files
 
   for host in models.Host.objects.all():
-    pxeconfig = host.kick_target.pxeconfig
+    # Ignore the kick target if we're set to local boot only
+    if host.local_boot:
+      pxeconfig = 'hdd'
+    else:
+      pxeconfig = host.kick_target.pxeconfig
 
     c = template.Context(locals())
     t = loader.get_template(os.path.join('pxeconfig', pxeconfig))

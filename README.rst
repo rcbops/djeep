@@ -40,8 +40,8 @@ Actions Somebody Might Want To Do With A Cluster
 Actions Somebody Might Want To Do With A Host
 ---------------------------------------------
 
- * Reboot
- * Re-assign to a new cluster
+ * (DONE) Reboot
+ * (DONE) Re-assign to a new cluster
  * Notifications when reboot complete
  * Per-host overrides of key-value pairs
 

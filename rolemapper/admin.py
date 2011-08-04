@@ -63,10 +63,10 @@ class HostAdmin(admin.ModelAdmin):
                   'ipmi_ip_link',
                   'mac_address',
                   'role',
-                  'state',
+                  'local_boot',
                   'kick_target',
                   'cluster')
-  list_editable = ('kick_target', 'role')
+  list_editable = ('kick_target', 'role', 'local_boot')
   list_filter = ('cluster',)
   ordering = ['hostname']
   actions = ['reboot', 'pxe_reboot']
