@@ -39,6 +39,8 @@ class Migration(SchemaMigration):
             ('kick_target', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['rolemapper.KickTarget'])),
             ('cluster', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['rolemapper.Cluster'])),
             ('ipmi_ip', self.gf('django.db.models.fields.CharField')(max_length=16, blank=True)),
+            ('mgmt_ip', self.gf('django.db.models.fields.CharField')(max_length=16, blank=True)),
+            ('vmnet_ip', self.gf('django.db.models.fields.CharField')(max_length=16, blank=True)),
         ))
         db.send_create_signal('rolemapper', ['Host'])
 
@@ -118,9 +120,11 @@ class Migration(SchemaMigration):
             'ipmi_ip': ('django.db.models.fields.CharField', [], {'max_length': '16', 'blank': 'True'}),
             'kick_target': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['rolemapper.KickTarget']"}),
             'mac_address': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '80'}),
+            'mgmt_ip': ('django.db.models.fields.CharField', [], {'max_length': '16', 'blank': 'True'}),
             'netmask': ('django.db.models.fields.CharField', [], {'max_length': '16'}),
             'role': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['rolemapper.Role']"}),
-            'state': ('django.db.models.fields.CharField', [], {'default': "'unmanaged'", 'max_length': '255'})
+            'state': ('django.db.models.fields.CharField', [], {'default': "'unmanaged'", 'max_length': '255'}),
+            'vmnet_ip': ('django.db.models.fields.CharField', [], {'max_length': '16', 'blank': 'True'})
         },
         'rolemapper.kicktarget': {
             'Meta': {'object_name': 'KickTarget'},

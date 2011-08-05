@@ -43,6 +43,8 @@ class Host(models.Model):
   cluster = models.ForeignKey('Cluster')
 
   ipmi_ip = models.CharField(max_length=16, blank=True)
+  mgmt_ip = models.CharField(max_length=16, blank=True)
+  vmnet_ip = models.CharField(max_length=16, blank=True)
 
   def __str__(self):
     return self.hostname
