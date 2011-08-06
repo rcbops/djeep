@@ -159,6 +159,8 @@ def _write_puppet_hosts(outdir=settings.PUPPET_HOSTS):
                'host_gateway': host.gateway,
                'host_netmask': host.netmask,
                'host_hostname': host.hostname,
+               'host_mgmt_ip': host.mgmt_ip,
+               'host_vmnet_ip': host.vmnet_ip,
                }
     outfile = os.path.join(outdir, '%s' % host.hostname)
     content = {'classes': classes,
