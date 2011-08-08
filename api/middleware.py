@@ -3,6 +3,9 @@ import StringIO
 
 class BusyboxWgetMiddleware(object):
   def process_request(self, request):
+    if not request.path.startswith('/api/'):
+      return
+
     real_method = request.META.get('HTTP_X_REAL_HTTP_METHOD', request.method)
     real_data = request.META.get('HTTP_X_REAL_HTTP_DATA', request.raw_post_data)
 
