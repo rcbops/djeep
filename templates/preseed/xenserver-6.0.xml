@@ -2,7 +2,8 @@
   <installation>
     <primary-disk>sda</primary-disk>
     <interface name="eth0" enabled="yes" proto="dhcp" />
-    <admin-interface name="eth0" proto="dhcp" />
+    <admin-interface name="eth0" proto="static" ip="{{host.ip_address}}" subnet-mask="{{host.netmask}}" gateway="{{host.gateway}}"/>
+    <hostname>{{host.hostname}}</hostname>
     <root-password>SOME ROOT PASSWORD</root-password>
     <source type="url">http://{{site.webservice_host}}:{{site.webservice_port}}/media/xenserver-6.0/</source>
     <script type="url" stage="installation-complete">http://{{site.webservice_host}}:{{site.webservice_port}}/post_script/{{host.id}}</script>
