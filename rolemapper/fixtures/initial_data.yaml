@@ -78,7 +78,7 @@
     initrd: xenserver/5.6-fp2/boot/xen.gz
     preseed: xenserver-5.6-fp2.xml
     firstboot: ""
-    post_script: ""
+    post_script: "xenserver.sh"
 
 - model: rolemapper.kicktarget
   pk: 5
@@ -89,4 +89,4 @@
     initrd: xenserver/6.0/boot/xen.gz
     preseed: xenserver-6.0.xml
     firstboot: ""
-    post_script: ""
+    post_script: "xenserver.sh"
