@@ -7,6 +7,7 @@ from piston import handler
 from piston.utils import rc
 
 from rolemapper import models
+from rolemapper import remote
 
 #class BaseHandler(handler.BaseHandler):
 #  def update(self, request, *args, **kwargs):
@@ -34,6 +35,7 @@ from rolemapper import models
 #    inst.save()
 #    return rc.ALL_OK
 
+
 class HostHandler(handler.BaseHandler):
   allowed_methods = ('GET', 'PUT')
   model = models.Host
@@ -49,4 +51,20 @@ class PuppetHandler(handler.BaseHandler):
       subprocess.check_call(command)
     except Exception:
       logging.exception('in subprocess call:')
+    return {}
+
+
+class ClusterHandler(handler.BaseHandler):
+  allowed_methods = ('BREW',)
+
+  def brew(self, request, id):
+    """Redeploy a cluster."""
+    cluster = models.Cluster.objects.get(pk=id)
+    hosts = models.Host.objects.filter(cluster=cluster)
+
+    for host in hosts:
+      host.local_boot =  False
+      host.save()
+      remote.pxe_reboot(host)
+
     return {}
