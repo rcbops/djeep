@@ -30,7 +30,7 @@ To mess with how the data is displayed in the admin: https://docs.djangoproject.
 Actions Somebody Might Want To Do With A Cluster
 ------------------------------------------------
 
- * Re-deploy
+ * (DONE) Re-deploy
  * Claim/Lock so that other people do not re-deploy
  * Free to tell others it is free to use
  * Notifications of beginning / end of redeploy
