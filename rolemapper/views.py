@@ -21,6 +21,18 @@ class EditForm(forms.Form):
   path = forms.CharField(max_length=100, widget=forms.HiddenInput)
 
 
+def _get_site_config(host):
+  global_config = models.Config.objects.filter(cluster=None)
+  global_config = dict((x.key, x.value) for x in global_config)
+
+  cluster_config = models.Config.objects.filter(cluster=host.cluster)
+  cluster_config = dict((x.key, x.value) for x in cluster_config)
+
+  options = global_config.copy()
+  options.update(cluster_config)
+  return options
+
+
 @login_required
 def home(request):
   clusters = models.Cluster.objects.all()
@@ -73,11 +85,8 @@ def flat_edit(request, kind, name):
 
 def preseed(request, system):
   """Provide the preseed file for a given instance."""
-  templatevars = models.Config.objects.all()
-  site = dict((x.key, x.value) for x in templatevars)
-
-  # lookup which preseed template to use
   host = models.Host.objects.get(pk=system)
+  site = _get_site_config(host)
   kick_target = host.kick_target
 
   # TODO(termie): the defaults should probably be in settings.py
@@ -97,11 +106,8 @@ def preseed(request, system):
 
 def firstboot(request, system):
   """Provide the firstboot file for a given instance."""
-  templatevars = models.Config.objects.all()
-  site = dict((x.key, x.value) for x in templatevars)
-
-  # lookup which preseed template to use
   host = models.Host.objects.get(pk=system)
+  site = _get_site_config(host)
   kick_target = host.kick_target
 
   c = template.RequestContext(request, locals())
@@ -114,11 +120,8 @@ def firstboot(request, system):
 
 def post_script(request, system):
   """Provide the post_script file for a given instance."""
-  templatevars = models.Config.objects.all()
-  site = dict((x.key, x.value) for x in templatevars)
-
-  # lookup which preseed template to use
   host = models.Host.objects.get(pk=system)
+  site = _get_site_config(host)
   kick_target = host.kick_target
 
   c = template.RequestContext(request, locals())
