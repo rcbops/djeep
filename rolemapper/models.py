@@ -18,6 +18,7 @@ class Config(models.Model):
 class Cluster(models.Model):
   short_name = models.CharField(max_length=40)
   display_name = models.CharField(max_length=80)
+  claim = models.CharField(max_length=100, blank=True)
 
   def __str__(self):
     return self.display_name

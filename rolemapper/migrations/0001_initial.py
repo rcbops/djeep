@@ -23,6 +23,7 @@ class Migration(SchemaMigration):
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('short_name', self.gf('django.db.models.fields.CharField')(max_length=40)),
             ('display_name', self.gf('django.db.models.fields.CharField')(max_length=80)),
+            ('claim', self.gf('django.db.models.fields.CharField')(max_length=100, blank=True)),
         ))
         db.send_create_signal('rolemapper', ['Cluster'])
 
@@ -99,6 +100,7 @@ class Migration(SchemaMigration):
     models = {
         'rolemapper.cluster': {
             'Meta': {'object_name': 'Cluster'},
+            'claim': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
             'display_name': ('django.db.models.fields.CharField', [], {'max_length': '80'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'short_name': ('django.db.models.fields.CharField', [], {'max_length': '40'})

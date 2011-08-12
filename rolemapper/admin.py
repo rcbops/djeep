@@ -51,8 +51,8 @@ admin.site.register(models.Config, ConfigAdmin)
 
 
 class ClusterAdmin(admin.ModelAdmin):
-  list_display = ('short_name', 'display_name')
-  list_editable = ('display_name',)
+  list_display = ('short_name', 'display_name', 'claim')
+  list_editable = ('display_name', 'claim')
 
 admin.site.register(models.Cluster, ClusterAdmin)
 

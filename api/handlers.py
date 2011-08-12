@@ -4,6 +4,7 @@ import subprocess
 import eventlet
 from django.core import exceptions
 from piston import handler
+from piston import utils
 from piston.utils import rc
 
 from rolemapper import models
@@ -62,9 +63,24 @@ class ClusterHandler(handler.BaseHandler):
     cluster = models.Cluster.objects.get(pk=id)
     hosts = models.Host.objects.filter(cluster=cluster)
 
+    # TODO(termie): A bit of a hack because I don't want to replicate the
+    #               entire __call__ method in piston's Resource.
+    try:
+      utils.translate_mime(request)
+    except utils.MimerDataException:
+      return rc.BAD_REQUEST
+
+    request.data = getattr(request, 'data', None)
+    if cluster.claim and (not request.data or
+                          cluster.claim != request.data.get('claim')):
+      resp = rc.FORBIDDEN
+      resp.content = ('FORBIDDEN: This cluster has been claimed: %s'
+                      % cluster.claim)
+      return resp
+
     for host in hosts:
       host.local_boot =  False
       host.save()
       remote.pxe_reboot(host)
 
-    return {}
+    return hosts
