@@ -31,12 +31,19 @@ Updating
 --------
 
  1. Make a backup::
+
     $ python manage.py dumpdata --format=yaml rolemapper > backup.yaml
+
  2. Update the code::
+
     $ git pull origin master
+
  3. Reset everything for good measure::
+
     $ ./reset.sh
+
  4. Load your data::
+
     $ python manage.py loaddata backup.yaml
 
 
@@ -44,8 +51,8 @@ Actions Somebody Might Want To Do With A Cluster
 ------------------------------------------------
 
  * (DONE) Re-deploy
- * Claim/Lock so that other people do not re-deploy
- * Free to tell others it is free to use
+ * (DONE) Claim/Lock so that other people do not re-deploy
+ * (DONE) Free to tell others it is free to use
  * Notifications of beginning / end of redeploy
  * Generate munin config files, specifically the per-cluster list of nodes.
  * Manage a puppet server per-cluster
