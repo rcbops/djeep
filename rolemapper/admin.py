@@ -65,7 +65,7 @@ class HostAdmin(admin.ModelAdmin):
                   'role',
                   'local_boot',
                   'kick_target',
-                  'cluster')
+                  'cluster_link')
   list_editable = ('kick_target', 'role', 'local_boot')
   list_filter = ('cluster',)
   ordering = ['hostname']
@@ -77,6 +77,12 @@ class HostAdmin(admin.ModelAdmin):
   ipmi_ip_link.allow_tags = True
   ipmi_ip_link.admin_order_field = 'ipmi_ip'
   ipmi_ip_link.short_description = 'ipmi_ip'
+
+  def cluster_link(self, inst):
+    return '<a href="/admin/rolemapper/cluster/%s">%s</a>' % (inst.cluster.id, inst.cluster.display_name)
+
+  cluster_link.allow_tags = True
+
 
   def reboot(self, request, queryset):
     for host in queryset:
