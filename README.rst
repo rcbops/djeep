@@ -27,6 +27,19 @@ We'll want to add some fixtures: https://docs.djangoproject.com/en/1.3/howto/ini
 To mess with how the data is displayed in the admin: https://docs.djangoproject.com/en/1.3/ref/contrib/admin/
 
 
+Updating
+--------
+
+ 1. Make a backup::
+    $ python manage.py dumpdata --format=yaml rolemapper > backup.yaml
+ 2. Update the code::
+    $ git pull origin master
+ 3. Reset everything for good measure::
+    $ ./reset.sh
+ 4. Load your data::
+    $ python manage.py loaddata backup.yaml
+
+
 Actions Somebody Might Want To Do With A Cluster
 ------------------------------------------------
 
