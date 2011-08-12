@@ -36,11 +36,16 @@ def _ensure_dir(d):
 
 def _write_pxelinux(outdir=settings.PXELINUX):
   _ensure_dir(outdir)
-  templatevars = models.Config.objects.all()
+  templatevars = models.Config.objects.filter(cluster=None)
   site = dict((x.key, x.value) for x in templatevars)
   # TODO(termie): clear out old files
-
+  
   for host in models.Host.objects.all():
+    # allow cluster overrides for site variables
+    cluster_config = models.Config.objects.filter(cluster=host.cluster)
+    cluster_config = dict((x.key, x.value) for x in cluster_config)
+    site.update(cluster_config)
+
     # Ignore the kick target if we're set to local boot only
     if host.local_boot:
       pxeconfig = 'hdd'
