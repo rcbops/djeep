@@ -39,7 +39,6 @@ def _write_pxelinux(outdir=settings.PXELINUX):
   templatevars = models.Config.objects.filter(cluster=None)
   site = dict((x.key, x.value) for x in templatevars)
   # TODO(termie): clear out old files
-  
   for host in models.Host.objects.all():
     # allow cluster overrides for site variables
     cluster_config = models.Config.objects.filter(cluster=host.cluster)
