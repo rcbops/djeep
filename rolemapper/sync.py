@@ -64,7 +64,6 @@ def _write_dnsmasq_conf(outdir=settings.ETC):
   templatevars = models.Config.objects.all()
   site = dict((x.key, x.value) for x in templatevars)
   tftproot = settings.TFTPROOT
-  etcroot = settings.ETC
 
   c = template.Context(locals())
   t = loader.get_template(os.path.join('etc', 'dnsmasq.conf'))
