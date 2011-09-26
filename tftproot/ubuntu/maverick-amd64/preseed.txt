@@ -150,6 +150,7 @@ d-i clock-setup/ntp boolean true
 # - lvm:     use LVM to partition the disk
 # - crypto:  use LVM within an encrypted partition
 d-i partman-auto/method string lvm
+d-i partman-auto/disk string /dev/discs/disc0/disc
 
 # If one of the disks that are going to be automatically partitioned
 # contains an old LVM configuration, the user will normally receive a
@@ -212,7 +213,7 @@ d-i partman-lvm/confirm_nooverwrite boolean true
 # so this will only work if the disks are the same size.
 #d-i partman-auto/disk string /dev/sda /dev/sdb
 
-# Next you need to specify the physical partitions that will be used. 
+# Next you need to specify the physical partitions that will be used.
 #d-i partman-auto/expert_recipe string \
 #      multiraid ::                                         \
 #              1000 5000 4000 raid                          \
@@ -303,7 +304,7 @@ d-i apt-setup/contrib boolean true
 #d-i debian-installer/allow_unauthenticated boolean true
 
 ### Package selection
-tasksel tasksel/first multiselect 
+tasksel tasksel/first multiselect
 #tasksel tasksel/first multiselect standard, web-server
 # If the desktop task is selected, install the kde and xfce desktops
 # instead of the default gnome desktop.
