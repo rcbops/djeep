@@ -130,7 +130,7 @@ d-i clock-setup/ntp boolean true
 # - lvm:     use LVM to partition the disk
 # - crypto:  use LVM within an encrypted partition
 d-i partman-auto/method string lvm
-d-i partman-auto/disk string /dev/discs/disc0/disc
+d-i partman-auto/disk string /dev/sda
 
 # If one of the disks that are going to be automatically partitioned
 # contains an old LVM configuration, the user will normally receive a

@@ -95,6 +95,7 @@ def preseed(request, system):
   root_cryptpw = site.get('root_cryptpw', '$1$5wm8ppD/$h4uMY0gPcTKRJgZHRszBk/')
   default_cryptpw = site.get('default_cryptpw', '$1$5wm8ppD/$h4uMY0gPcTKRJgZHRszBk/')
   default_username = site.get('default_username', 'demo')
+  install_drive = site.get('install_drive', '/dev/sda')
 
   c = template.RequestContext(request, locals())
   preseed_template = loader.get_template(
