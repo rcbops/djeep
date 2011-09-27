@@ -1,6 +1,6 @@
 #!/bin/sh
 apt-get update
-apt-get upgrade
+apt-get -y upgrade
 apt-get -y install git python-virtualenv mercurial gcc python-dev puppet puppetmaster dns\
 masq screen
 git clone git://github.com/willkelly/djeep.git
