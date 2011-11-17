@@ -16,4 +16,4 @@ libdir=$confdir/lib
 ssl_client_header = SSL_CLIENT_S_DN
 ssl_client_verify_header = SSL_CLIENT_VERIFY
 node_terminus = exec
-external_nodes = /path/to/djeep/etc/puppet/node_classes.py
+external_nodes = /path/to/djeep/local/etc/puppet/node_classes.py

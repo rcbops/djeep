@@ -19,7 +19,7 @@ mv djeep /opt
 cd /opt/djeep
 ./fetch_images.sh
 python tools/install_venv.py
-cp /opt/djeep/etc/puppet/puppet.conf.sample /etc/puppet/puppet.conf
+cp /opt/djeep/local/etc/puppet/puppet.conf.sample /etc/puppet/puppet.conf
 sed -i 's/\/path\/to/\/opt/' /etc/puppet/puppet.conf
 cd /opt/djeep
 tools/with_venv.sh ./reset.sh
