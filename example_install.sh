@@ -28,5 +28,8 @@ touch /etc/ethers
 ln -s /etc/ethers /opt/djeep/etc/ethers
 service dnsmasq restart
 service puppetmaster restart
+sed  -i 's/^exit 0//' /etc/rc.local 
+echo 'cd /opt/djeep' >> /etc/rc.local
+echo 'screen -d -m tools/with_venv.sh python manage.py runeventlet 0.0.0.0:8000' >> /etc/rc.local
 screen -d -m tools/with_venv.sh python manage.py runeventlet 0.0.0.0:8000
 
