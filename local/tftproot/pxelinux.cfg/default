@@ -1,0 +1,50 @@
+default menu.c32
+prompt 0
+menu title PXE Boot
+timeout 100
+
+label local
+      menu label Local Boot
+      kernel chain.c32
+      append hd0 0
+
+label memtest
+      menu label Memtest86+
+      kernel utility/memtest.img
+
+label squeeze
+      menu label Debian 6.0 (^Squeeze) AMD64 Installer
+      kernel debian/squeeze-amd64/linux
+      append auto=true priority=critical vga=788 initrd=debian/squeeze-amd64/initrd.gz languagechooser/language-name=English countrychooser/shortlist=US consol-keymaps-at/keymap=en preseed/url=tftp://192.168.122.2/debian/squeeze-amd64/preseed.txt -- quiet 
+
+
+label chef-squeeze
+      menu label Debian 6.0 (^Squeeze) Chef Server
+      kernel debian/squeeze-amd64/linux
+      append auto=true priority=critical vga=788 initrd=debian/squeeze-amd64/initrd.gz languagechooser/language-name=English countrychooser/shortlist=US consol-keymaps-at/keymap=en netcfg/get_hostname=chef-server preseed/url=tftp://192.168.122.2/debian/squeeze-amd64/preseed-chef-server.txt
+
+label chef-pxe
+      menu label Debian 6.0 (^Squeeze) PXE Server
+      kernel debian/squeeze-amd64/linux
+      append auto=true priority=critical vga=788 initrd=debian/squeeze-amd64/initrd.gz languagechooser/language-name=English countrychooser/shortlist=US consol-keymaps-at/keymap=en netcfg/get_hostname=pxe-server preseed/url=tftp://192.168.122.2/debian/squeeze-amd64/preseed-pxe-server.txt
+
+label natty
+      menu label Ubuntu 11.04 (^Natty) AMD64 Installer
+      kernel ubuntu/natty-amd64/linux
+      append auto=true priority=critical vga=788 initrd=ubuntu/natty-amd64/initrd.gz languagechooser/language-name=English countrychooser/shortlist=US consol-keymaps-at/keymap=en preseed/url=tftp://192.168.122.2/ubuntu/natty-amd64/preseed.txt
+
+label maverick
+      menu label Ubuntu 10.10 (^Maverick) AMD64 Installer
+      kernel ubuntu/maverick-amd64/linux
+      append auto=true priority=critical vga=788 initrd=ubuntu/maverick-amd64/initrd.gz languagechooser/language-name=English countrychooser/shortlist=US consol-keymaps-at/keymap=en preseed/url=tftp://192.168.122.2/ubuntu/maverick-amd64/preseed.txt -- quiet 
+
+label maverick-chef
+      menu label Ubuntu 10.10 (^Maverick) Chef Client
+      kernel ubuntu/maverick-amd64/linux
+      append auto=true priority=critical vga=788 initrd=ubuntu/maverick-amd64/initrd.gz languagechooser/language-name=English countrychooser/shortlist=US consol-keymaps-at/keymap=en preseed/url=tftp://192.168.122.2/ubuntu/maverick-amd64/preseed-chef-client.txt -- quiet 
+
+label lucid
+      menu label Ubuntu 10.04 (^Lucid) AMD64 Installer
+      kernel ubuntu/lucid-amd64/linux
+#      append auto=true priority=critical vga=788 initrd=ubuntu/lucid-amd64/initrd.gz languagechooser/language-name=English countrychooser/shortlist=US consol-keymaps-at/keymap=en preseed/url=tftp://192.168.122.2/ubuntu/lucid-amd64/preseed.txt -- quiet nomodeset
+      append auto=true priority=critical vga=788 initrd=ubuntu/lucid-amd64/initrd.gz nomodeswitch noapic nolapic
