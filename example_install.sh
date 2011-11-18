@@ -23,9 +23,9 @@ cp /opt/djeep/local/etc/puppet/puppet.conf.sample /etc/puppet/puppet.conf
 sed -i 's/\/path\/to/\/opt/' /etc/puppet/puppet.conf
 cd /opt/djeep
 tools/with_venv.sh ./reset.sh
-ln -s /etc/dnsmasq.conf /opt/djeep/etc/dnsmasq.conf
+ln -s /etc/dnsmasq.conf /opt/djeep/local/etc/dnsmasq.conf
 touch /etc/ethers
-ln -s /etc/ethers /opt/djeep/etc/ethers
+ln -s /etc/ethers /opt/djeep/local/etc/ethers
 service dnsmasq restart
 service puppetmaster restart
 sed  -i 's/^exit 0//' /etc/rc.local 
