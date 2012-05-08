@@ -3,7 +3,7 @@ apt-get update
 apt-get -y upgrade
 apt-get -y install git python-virtualenv mercurial gcc python-dev puppet puppetmaster dns\
 masq screen
-git clone git://github.com/willkelly/djeep.git
+git clone git://github.com/cloudbuilders/djeep.git
 git clone git://github.com/willkelly/openstack-puppet.git
 mv /etc/puppet /etc/puppet.orig
 mv openstack-puppet /etc/puppet
