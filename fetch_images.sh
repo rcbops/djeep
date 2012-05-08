@@ -42,7 +42,7 @@ images=( maverick natty oneiric precise)
 for image in ${images[@]}; do
     echo "Grabbing files for ${image}"
     mkdir "${image}-amd64";
-    cp preseed.txt ${image}-amd64/${image}-amd64-preseed.txt;
+    cp preseed.txt ../../../templates/preseed/${image}-amd64-preseed.txt;
     files=( initrd.gz linux )
     for file in ${files[@]}; do
         wget "http://archive.ubuntu.com/ubuntu/dists/${image}/main/installer-amd64/current/images/netboot/ubuntu-installer/amd64/${file}" -q -P ${image}-amd64;
