@@ -100,7 +100,7 @@
     initrd: ubuntu/natty-amd64/initrd.gz
     preseed: natty-amd64-preseed.txt
     firstboot: ""
-    post_script: ""
+    post_script: "debian.sh"
 
 - model: rolemapper.kicktarget
   pk: 7
@@ -111,7 +111,7 @@
     initrd: ubuntu/oneiric-amd64/initrd.gz
     preseed: oneiric-amd64-preseed.txt
     firstboot: ""
-    post_script: ""
+    post_script: "debian.sh"
 
 - model: rolemapper.kicktarget
   pk: 8
@@ -122,4 +122,4 @@
     initrd: ubuntu/precise-amd64/initrd.gz
     preseed: precise-amd64-preseed.txt
     firstboot: ""
-    post_script: ""
+    post_script: "debian.sh"
