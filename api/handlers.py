@@ -36,8 +36,8 @@ from rolemapper import remote
 #    inst.save()
 #    return rc.ALL_OK
 
-
 class HostHandler(handler.BaseHandler):
+  exclude = ()
   allowed_methods = ('GET', 'PUT')
   model = models.Host
 

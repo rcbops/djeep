@@ -1,0 +1,10 @@
+{
+  "options": {
+    "webservice_port": "80", 
+    "puppet_server": "localhost", 
+    "domainname": "lab", 
+    "cluster_specific_key": "cluster_specific_value1", 
+    "gateway": "127.0.0.1", 
+    "webservice_host": "127.0.0.1"
+  }
+}

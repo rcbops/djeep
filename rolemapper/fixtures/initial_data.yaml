@@ -54,9 +54,9 @@
     pxeconfig: ubuntu
     kernel: ubuntu/maverick-amd64/linux
     initrd: ubuntu/maverick-amd64/initrd.gz
-    preseed: maverick-amd64-preseed.txt
+    preseed: ubuntu-amd64-preseed.txt
     firstboot: ""
-    post_script: ""
+    post_script: debian.sh
 
 - model: rolemapper.kicktarget
   pk: 3
@@ -90,3 +90,36 @@
     preseed: xenserver-6.0.xml
     firstboot: ""
     post_script: "xenserver.sh"
+
+- model: rolemapper.kicktarget
+  pk: 6
+  fields:
+    name: Ubuntu Natty (amd64)
+    pxeconfig: ubuntu
+    kernel: ubuntu/natty-amd64/linux
+    initrd: ubuntu/natty-amd64/initrd.gz
+    preseed: ubuntu-amd64-preseed.txt
+    firstboot: ""
+    post_script: debian.sh
+
+- model: rolemapper.kicktarget
+  pk: 7
+  fields:
+    name: Ubuntu Oneiric (amd64)
+    pxeconfig: ubuntu
+    kernel: ubuntu/oneiric-amd64/linux
+    initrd: ubuntu/oneiric-amd64/initrd.gz
+    preseed: ubuntu-amd64-preseed.txt
+    firstboot: ""
+    post_script: debian.sh
+
+- model: rolemapper.kicktarget
+  pk: 8
+  fields:
+    name: Ubuntu Precise (amd64)
+    pxeconfig: ubuntu
+    kernel: ubuntu/precise-amd64/linux
+    initrd: ubuntu/precise-amd64/initrd.gz
+    preseed: ubuntu-amd64-preseed.txt
+    firstboot: ""
+    post_script: debian.sh

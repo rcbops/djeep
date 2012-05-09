@@ -1,0 +1,21 @@
+Instructions:
+
+0) Do a minimal install of ubuntu 10.10
+1) curl -Sks https://raw.github.com/willkelly/djeep/master/example_install.sh | bash
+2) edit /etc/puppet/puppet.conf and put your hostname in the server= part. You'll have to create a line that is: 
+
+server=infra.somedomain.com
+
+That's supposed to go in the [main] section (the top one by default) 
+
+3) pull down https://raw.github.com/willkelly/djeep/master/sample_data.json and stick it in /opt/djeep, then cd into /opt/djeep and run the following:
+
+tools/with_venv.sh python manage.py loaddata sample_data.json
+
+4) Change everything in djeep to your likings.
+
+5) run the puppet client as root: puppetd -t
+
+6) fix any pink output from the script
+
+7) Kick the rest of your hosts!

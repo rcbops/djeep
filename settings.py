@@ -16,7 +16,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
 
         # Or path to database file if using sqlite3.
-        'NAME': 'djeep.sqlite',
+        'NAME': 'local/djeep.sqlite',
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -173,9 +173,9 @@ LOGGING = {
 LOGIN_URL = '/admin/'
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__)))
-TFTPROOT = os.path.join(ROOT, 'tftproot')
+TFTPROOT = os.path.join(ROOT, 'local/tftproot')
 PXELINUX = os.path.join(TFTPROOT, 'pxelinux.cfg')
-ETC = os.path.join(ROOT, 'etc')
+ETC = os.path.join(ROOT, 'local/etc')
 SSH = os.path.join(ROOT, 'ssh')
 PUPPET = os.path.join(ETC, 'puppet')
 PUPPET_HOSTS = os.path.join(PUPPET, 'hosts')

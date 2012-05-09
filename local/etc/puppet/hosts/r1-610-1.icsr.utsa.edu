@@ -1,0 +1,15 @@
+{
+  "classes": [
+    "nova-infra-node"
+  ], 
+  "options": {
+    "host_vmnet_ip": "1.1.1.1", 
+    "cluster": "test", 
+    "host_hostname": "r1-610-1.icsr.utsa.edu", 
+    "host_ip_address": "10.1.0.1", 
+    "host_mgmt_ip": "1.1.1.1", 
+    "host_gateway": "10.1.0.10", 
+    "host_netmask": "255.255.255.0", 
+    "host_mac_address": "14:fe:b5:d5:92:98"
+  }
+}

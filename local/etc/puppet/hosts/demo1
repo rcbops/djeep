@@ -1,0 +1,15 @@
+{
+  "classes": [
+    "nova-infra-node"
+  ], 
+  "options": {
+    "host_vmnet_ip": "", 
+    "cluster": "test", 
+    "host_hostname": "demo1", 
+    "host_ip_address": "10.0.0.2", 
+    "host_mgmt_ip": "", 
+    "host_gateway": "10.0.0.1", 
+    "host_netmask": "255.255.255.0", 
+    "host_mac_address": "12:34:56:78:90:AB"
+  }
+}
