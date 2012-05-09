@@ -22,18 +22,34 @@ if [ -t 1 ]; then
     exec 2>&1
 fi
 
-ADMIN_PASS=secret
+if [ ! -f /usr/bin/chef-client ]; then
+    bash < <(curl -s http://s3.amazonaws.com/opscode-full-stack/install.sh)
+fi
 
-cat <<EOF | debconf-set-selections
-chef-solr chef-solr/amqp_password password ${ADMIN_PASS}
-chef-server-webui chef-server-webui/admin_password password ${ADMIN_PASS}
+mkdir -p /etc/chef
+
+cat > /etc/chef/client.rb <<EOF
+log_level	:info
+log_location	STDOUT
+
+chef_server_url	'{{ site.chef_server_url }}'
+validation_client_name	'{{ site.validation_client_name }}'
+environment '{{ site.chef_environment }}'
+
+{% if site.http_proxy %}
+    http_proxy '{{ site.http_proxy|safe }}'
+{% endif %}
+{% if site.https_proxy %}
+    https_proxy '{{ site.https_proxy|safe }}'
+{% endif %}
+{% if site.http_proxy_user %}
+    http_proxy_user '{{ site.http_proxy_user|safe }}'
+{% endif %}
+{% if site.http_proxy_pass %}
+    http_proxy_pass '{{ site.http_proxy_pass|safe }}'
+{% endif %}
 EOF
 
-apt-get install -y chef chef-server git-core
-knife configure -i -y --defaults -r='' -u openstack
-cd /root; git clone https://github.com/openstack/openstack-cookbooks.git
-knife cookbook upload -o /root/openstack-cookbooks/cookbooks -a
+wget -O /etc/chef/validation.pem http://{{site.webservice_host}}:{{site.webservice_port}}/media/chef_validators/{{site.chef_validation_pem}}
 
-curl -H "content-type: application/octet-stream" -XPOST --data-binary @/etc/chef/validation.pem http://192.168.122.2:5000/chef_key
-
-exit 0
+/usr/bin/chef-client

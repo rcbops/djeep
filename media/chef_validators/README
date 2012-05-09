@@ -1,0 +1,3 @@
+Place your chef validation pem files in this directory.
+
+Add "chef_validation_pem" = <filename> to the config table in djeep.

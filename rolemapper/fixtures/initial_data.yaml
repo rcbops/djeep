@@ -40,6 +40,33 @@
     value: localhost
     description: hostname of puppet server to use, probably this host
 
+- model: rolemapper.config
+  pk: 7
+  fields:
+    key: chef_server_url
+    value: https://api.opscode.com/organizations/<orgname>
+    description: URL for chef-server
+
+- model: rolemapper.config
+  pk: 8
+  fields:
+    key: validation_client_name
+    value: <orgname>-validator
+    description: Name of the validator client for the orginization
+
+- model: rolemapper.config
+  pk: 9
+  fields:
+    key: chef_environment
+    value: _default
+    description: Name of the environment in which the client will register
+
+- model: rolemapper.config
+  pk: 10
+  fields:
+    key: chef_validation_pem
+    value: validation.pem
+    description: Name of the validation private key file
 
 - model: rolemapper.kicktarget
   pk: 1
