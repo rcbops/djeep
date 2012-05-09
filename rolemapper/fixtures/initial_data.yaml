@@ -54,7 +54,7 @@
     pxeconfig: ubuntu
     kernel: ubuntu/maverick-amd64/linux
     initrd: ubuntu/maverick-amd64/initrd.gz
-    preseed: maverick-amd64-preseed.txt
+    preseed: ubuntu-amd64-preseed.txt
     firstboot: ""
     post_script: debian.sh
 
@@ -98,7 +98,7 @@
     pxeconfig: ubuntu
     kernel: ubuntu/natty-amd64/linux
     initrd: ubuntu/natty-amd64/initrd.gz
-    preseed: natty-amd64-preseed.txt
+    preseed: ubuntu-amd64-preseed.txt
     firstboot: ""
     post_script: debian.sh
 
@@ -109,7 +109,7 @@
     pxeconfig: ubuntu
     kernel: ubuntu/oneiric-amd64/linux
     initrd: ubuntu/oneiric-amd64/initrd.gz
-    preseed: oneiric-amd64-preseed.txt
+    preseed: ubuntu-amd64-preseed.txt
     firstboot: ""
     post_script: debian.sh
 
@@ -120,6 +120,6 @@
     pxeconfig: ubuntu
     kernel: ubuntu/precise-amd64/linux
     initrd: ubuntu/precise-amd64/initrd.gz
-    preseed: precise-amd64-preseed.txt
+    preseed: ubuntu-amd64-preseed.txt
     firstboot: ""
     post_script: debian.sh
