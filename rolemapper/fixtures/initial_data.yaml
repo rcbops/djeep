@@ -9,7 +9,7 @@
   pk: 2
   fields:
     key: webservice_port
-    value: 80
+    value: 8000
     description: port for this webservice
 
 - model: rolemapper.config
