@@ -1,6 +1,6 @@
 #!/bin/sh
 
-rm djeep.sqlite
+rm local/djeep.sqlite
 rm -rf rolemapper/migrations
 python manage.py schemamigration rolemapper --initial
 python manage.py syncdb --noinput
