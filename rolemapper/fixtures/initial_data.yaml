@@ -150,3 +150,14 @@
     preseed: ubuntu-amd64-preseed.txt
     firstboot: ""
     post_script: debian.sh
+
+- model: rolemapper.kicktarget
+  pk: 9
+  fields:
+    name: Chef Client (precise-amd64)
+    pxeconfig: ubuntu
+    kernel: ubuntu/precise-amd64/linux
+    initrd: ubuntu/precise-amd64/initrd.gz
+    preseed: ubuntu-amd64-preseed.txt
+    firstboot: chef-client.sh
+    post_script: debian.sh
