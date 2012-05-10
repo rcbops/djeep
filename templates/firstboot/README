@@ -1,0 +1,10 @@
+Required config entries for chef-server.sh
+
+* chef_server_url - full URL to chef-server API endpoint (example: https://api.opscode.com/organizations/<your org>)
+* validation_client_name - name of the chef-server 'validator' client for your org (example: <your org>-validator)
+* chef_environment - name of the chef environment to register node (example: test_env)
+* http_proxy - Specify the proxy server for chef-client HTTP traffic (example: http://proxy.example.org:3128)
+* https_proxy - Specify the proxy server for chef-client HTTPS traffic (example: http://proxy.example.org:3128)
+* http_proxy_user - If the proxy server requires a username, provide it here
+* http_proxy_pass - If the proxy server requires a password, provide it here
+* chef_validation_pem - Name of the validation pem file used to register with chef-server, this file MUST EXIST in media/chef_validators
