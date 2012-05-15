@@ -16,7 +16,7 @@
   pk: 3
   fields:
     key: webservice_host
-    value: 127.0.0.1
+    value: CHANGEME
     description: ip for this webservice
 
 - model: rolemapper.config
