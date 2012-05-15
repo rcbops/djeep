@@ -8,7 +8,7 @@ apt-get -y upgrade
 apt-get -y install git python-virtualenv mercurial gcc python-dev puppet puppetmaster dnsmasq screen
 
 cd ${INSTALL_DIR}
-git clone git://github.com/galstrom21/djeep.git
+git clone git://github.com/cloudbuilders/djeep.git
 git clone git://github.com/willkelly/openstack-puppet.git
 
 if [ -d /etc/puppet ]; then
