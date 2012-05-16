@@ -52,4 +52,8 @@ EOF
 
 wget -O /etc/chef/validation.pem http://{{site.webservice_host}}:{{site.webservice_port}}/media/chef_validators/{{site.chef_validation_pem}}
 
-/usr/bin/chef-client
+# Configure chef-client upstart
+mkdir /var/log/chef
+cp /opt/opscode/embedded/lib/ruby/gems/1.9.1/gems/chef-0.10.8/distro/debian/etc/init/chef-client.conf /etc/init/
+ln -s /lib/init/upstart-job /etc/init.d/chef-client
+/etc/init.d/chef-client start
