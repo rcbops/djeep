@@ -23,7 +23,7 @@ if [ -t 1 ]; then
 fi
 
 if [ ! -f /usr/bin/chef-client ]; then
-    bash < <(curl -s http://s3.amazonaws.com/opscode-full-stack/install.sh)
+    bash < <(curl -s  http://www.opscode.com/chef/install.sh)
 fi
 
 mkdir -p /etc/chef
@@ -54,6 +54,6 @@ wget -O /etc/chef/validation.pem http://{{site.webservice_host}}:{{site.webservi
 
 # Configure chef-client upstart
 mkdir /var/log/chef
-cp /opt/opscode/embedded/lib/ruby/gems/1.9.1/gems/chef-0.10.8/distro/debian/etc/init/chef-client.conf /etc/init/
+cp /opt/opscode/embedded/lib/ruby/gems/1.9.1/gems/chef-11.4.0/distro/debian/etc/init/chef-client.conf /etc/init/
 ln -s /lib/init/upstart-job /etc/init.d/chef-client
 /etc/init.d/chef-client start
