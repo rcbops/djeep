@@ -1,5 +1,5 @@
 South
-django<1.4
+django<1.6
 eventlet
 pycrypto
 paramiko

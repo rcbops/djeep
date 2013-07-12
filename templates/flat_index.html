@@ -7,6 +7,6 @@
 </form>
 
 {% for item in available %}
-  <a href="{% url flat_edit kind item %}">{{item}}<a/>
+  <a href="{% url "flat_edit" kind item %}">{{item}}<a/>
 {% endfor %}
 
