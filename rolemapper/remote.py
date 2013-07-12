@@ -1,14 +1,18 @@
 import logging
 import subprocess
-
+from views import _get_site_config
 from django.conf import settings
 
 
 def _build_ipmi_command(host, *args):
+  config = _get_site_config(host)
+  user = config.get('ipmi_user', settings.IPMI_USER)
+  password = config.get('ipmi_password', settings.IPMI_PASSWORD)
+  
   return  ['/usr/bin/ipmitool',
            '-H', host.ipmi_ip,
-           '-U', settings.IPMI_USER,
-           '-P', settings.IPMI_PASSWORD] + list(args)
+           '-U', user,
+           '-P', password] + list(args)
 
 
 def reboot(host):
@@ -16,6 +20,8 @@ def reboot(host):
   # 'cycle' was not sufficient
   command = _build_ipmi_command(host, 'power', 'reset')
   logging.info('Rebooting: %s', host.hostname)
+  logging.debug("Using command %s" % command)
+
   try:
     subprocess.check_call(command)
   except Exception:
@@ -25,6 +31,7 @@ def reboot(host):
 def pxe_reboot(host):
   command = _build_ipmi_command(host, 'chassis', 'bootdev', 'pxe')
   logging.info('Setting PXE Boot for: %s', host.hostname)
+  logging.debug("Using command %s" % command)
   try:
     subprocess.check_call(command)
   except Exception:
