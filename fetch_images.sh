@@ -4,12 +4,19 @@
 # and initrds from somewhere
 
 # I should also be made into a manage.py command
+OLDPWD="$PWD"
+cd "$(dirname $0)"
 
-wget http://c752981.r81.cf2.rackcdn.com/syslinux-needful.tar.gz -qO- |
-    tar xzC local/tftproot
+echo "Downloading syslinux 6.01"
+wget https://www.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.01.tar.bz2 -qO- | tar xj
 
-mkdir local/tftproot/ubuntu
-cd local/tftproot/ubuntu
+cd local/tftproot
+ln -s ../../syslinux-6.01/bios/core/pxelinux.0
+ln -s ../../syslinux-6.01/bios/com32/menu/menu.c32
+ln -s ../../syslinux-6.01/bios/com32/mboot/mboot.c32
+ln -s ../../syslinux-6.01/bios/com32/chain/chain.c32
+mkdir ubuntu
+cd ubuntu
 
 images=( maverick natty oneiric precise)
 for image in ${images[@]}; do
@@ -21,3 +28,4 @@ for image in ${images[@]}; do
         wget "http://archive.ubuntu.com/ubuntu/dists/${image}/main/installer-amd64/current/images/netboot/ubuntu-installer/amd64/${file}" -q -P ${image}-amd64;
     done;
 done;
+cd $OLDPWD
