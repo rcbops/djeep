@@ -16,3 +16,4 @@ etc/hosts
 tftproot/pxelinux.cfg/01*
 ssh
 local_settings.py
+syslinux-6.01/
