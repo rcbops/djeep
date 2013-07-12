@@ -54,6 +54,6 @@ wget -O /etc/chef/validation.pem http://{{site.webservice_host}}:{{site.webservi
 
 # Configure chef-client upstart
 mkdir /var/log/chef
-cp /opt/opscode/embedded/lib/ruby/gems/1.9.1/gems/chef-11.4.0/distro/debian/etc/init/chef-client.conf /etc/init/
+cp /opt/chef/embedded/lib/ruby/gems/1.9.1/gems/chef-`dpkg-query --show chef | awk '{print $2}' | awk -F- '{print $1}'`/distro/debian/etc/init/chef-client.conf /etc/init/
 ln -s /lib/init/upstart-job /etc/init.d/chef-client
 /etc/init.d/chef-client start
