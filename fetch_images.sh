@@ -35,7 +35,7 @@ function fetch_centos {
       echo "Grabbing files for CentOS-${image}"
       mkdir "${image}-${SUFFIX}";
       for file in ${files[@]}; do
-          wget "${urlbase}/CentOS/${image}/os/${SUFFIX}/images/pxeboot/${file}" -q -P ${image}-${SUFFIX};
+          wget "${urlbase}/centos/${image}/os/${SUFFIX}/images/pxeboot/${file}" -q -P ${image}-${SUFFIX};
       done;
   done;
   popd
