@@ -24,7 +24,7 @@ function fetch_ubuntu {
 function fetch_centos {
   local DIRNAME="centos"
   local SUFFIX="x86_64"
-  local urlbase="http://mirror.rackspace.com"
+  local urlbase="http://mirror.centos.org"
   local images=( 6.4 )
   local files=( initrd.img vmlinuz )
 
