@@ -1,0 +1,10 @@
+default menu.c32
+prompt 0
+menu title PXE Boot
+timeout 100
+
+label CentOS 6.4 x86_64
+      menu label {{host.kick_target.name}}
+      kernel {{host.kick_target.kernel}}
+      append initrd={{host.kick_target.initrd}} ip=dhcp ksdevice=bootif ks=http://{{site.webservice_host}}:{{site.webservice_port}}/preseed/{{host.id}}
+      IPAPPEND 2
