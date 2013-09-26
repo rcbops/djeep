@@ -161,3 +161,14 @@
     preseed: ubuntu-amd64-preseed.txt
     firstboot: chef-client.sh
     post_script: debian.sh
+
+- model: rolemapper.kicktarget
+  pk: 10
+  fields:
+    name: CentOS 6.5 (x86_64)
+    pxeconfig: centos-6.4
+    kernel: centos/6.4-x86_64/vmlinuz
+    initrd: centos/6.4-x86_64/initrd.img
+    preseed: centos-6.4.ks
+    firstboot: ""
+    post_script: default.sh
