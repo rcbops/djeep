@@ -22,20 +22,30 @@ if [ -t 1 ]; then
     exec 2>&1
 fi
 
+# Check if we have network access before continuing
+until ping -q -w 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` > /dev/null; do
+  sleep 5
+done
+
+# Download and install the chef-client
 if [ ! -f /usr/bin/chef-client ]; then
     bash < <(curl -s  http://www.opscode.com/chef/install.sh)
 fi
 
-mkdir -p /etc/chef
+# Create the required directories
+mkdir -p /etc/chef /var/log/chef
 
+# Create the chef client configuration
 cat > /etc/chef/client.rb <<EOF
 log_level	:info
 log_location	STDOUT
 
 chef_server_url	'{{ site.chef_server_url }}'
-validation_client_name	'{{ site.validation_client_name }}'
 environment '{{ site.chef_environment }}'
 
+{% if site.validation_client_name %}
+    validation_client_name '{{ site.validation_client_name }}'
+{% endif %}
 {% if site.http_proxy %}
     http_proxy '{{ site.http_proxy|safe }}'
 {% endif %}
@@ -50,10 +60,24 @@ environment '{{ site.chef_environment }}'
 {% endif %}
 EOF
 
+# Get the chef validator certificate
 wget -O /etc/chef/validation.pem http://{{site.webservice_host}}:{{site.webservice_port}}/media/chef_validators/{{site.chef_validation_pem}}
 
 # Configure chef-client upstart
-mkdir /var/log/chef
 cp /opt/chef/embedded/lib/ruby/gems/1.9.1/gems/chef-`dpkg-query --show chef | awk '{print $2}' | awk -F- '{print $1}'`/distro/debian/etc/init/chef-client.conf /etc/init/
 ln -s /lib/init/upstart-job /etc/init.d/chef-client
-/etc/init.d/chef-client start
+
+# If a role is assigned, use it
+{% if host.role %}
+cat > /etc/chef/firstboot.json <<EOF
+{ "run_list":
+    [
+      "role[{{host.role}}]"
+    ]
+}
+EOF
+chef-client -j /etc/chef/firstboot.json
+{% endif %}
+
+# Start the chef-client service
+service chef-client start
