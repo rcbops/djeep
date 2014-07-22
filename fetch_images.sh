@@ -55,6 +55,7 @@ ln -s ../../syslinux-6.01/bios/com32/mboot/mboot.c32
 ln -s ../../syslinux-6.01/bios/com32/chain/chain.c32
 ln -s ../../syslinux-6.01/bios/com32/elflink/ldlinux/ldlinux.c32
 ln -s ../../syslinux-6.01/bios/com32/libutil/libutil.c32
+ln -s ../../syslinux-6.01/bios/com32/lib/libcom32.c32
 
 fetch_ubuntu
 fetch_centos
