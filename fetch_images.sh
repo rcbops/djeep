@@ -4,7 +4,7 @@ function fetch_ubuntu {
   local DIRNAME="ubuntu"
   local SUFFIX="amd64"
   local urlbase="http://archive.ubuntu.com"
-  local images=( maverick natty oneiric precise )
+  local images=( maverick natty oneiric precise trusty )
   local files=( initrd.gz linux )
 
   mkdir ${DIRNAME}
@@ -53,6 +53,8 @@ ln -s ../../syslinux-6.01/bios/core/pxelinux.0
 ln -s ../../syslinux-6.01/bios/com32/menu/menu.c32
 ln -s ../../syslinux-6.01/bios/com32/mboot/mboot.c32
 ln -s ../../syslinux-6.01/bios/com32/chain/chain.c32
+ln -s ../../syslinux-6.01/bios/com32/elflink/ldlinux/ldlinux.c32
+ln -s ../../syslinux-6.01/bios/com32/libutil/libutil.c32
 
 fetch_ubuntu
 fetch_centos
