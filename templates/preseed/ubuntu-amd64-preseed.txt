@@ -52,6 +52,7 @@ d-i apt-setup/contrib boolean true
 d-i user-setup/encrypt-home boolean false
 d-i grub-installer/only_debian boolean true
 d-i grub-installer/with_other_os boolean true
+d-i grub-installer/bootdev  string (hd0,0)
 d-i finish-install/reboot_in_progress note
 xserver-xorg xserver-xorg/autodetect_monitor boolean true
 xserver-xorg xserver-xorg/config/monitor/selection-method \
