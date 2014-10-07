@@ -65,9 +65,17 @@ class PuppetHandler(handler.BaseHandler):
 class ClusterHandler(handler.BaseHandler):
     allowed_methods = ('BREW',)
 
-    def brew(self, request, id):
+    def brew(self, request, **kwargs):
         """Redeploy a cluster."""
-        cluster = models.Cluster.objects.get(pk=id)
+
+        query = {}
+        if 'id' in kwargs:
+            query['pk'] = kwargs['id']
+        elif 'name' in kwargs:
+            query['short_name__exact'] = kwargs['name']
+
+        cluster = models.Cluster.objects.get(**query)
+
         hosts = models.Host.objects.filter(cluster=cluster)
 
         # TODO(termie): A bit of a hack because I don't want to replicate the
