@@ -18,6 +18,7 @@ cluster_handler = resource.Resource(handlers.ClusterHandler)
 cluster_handler = csrf.csrf_exempt(cluster_handler)
 
 urlpatterns = patterns('',
+    url(r'^clusterbyname/(?P<name>[^/]+)$', cluster_handler),
     url(r'^cluster/(?P<id>\d+)$', cluster_handler),
     url(r'^host/(?P<id>\d+)/puppet_sig$', puppet_handler),
     url(r'^host/(?P<id>\d+)$', host_handler),
