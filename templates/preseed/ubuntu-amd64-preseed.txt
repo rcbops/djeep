@@ -25,6 +25,7 @@ d-i passwd/user-password-crypted password {{ default_cryptpw }}
 d-i clock-setup/utc boolean false
 d-i time/zone string US/Central
 d-i clock-setup/ntp boolean true
+d-i partman/unmount_active boolean true
 d-i partman-auto/disk string {{ install_drive }}
 d-i partman-auto/method string lvm
 d-i partman-lvm/device_remove_lvm boolean true
@@ -52,7 +53,7 @@ d-i apt-setup/contrib boolean true
 d-i user-setup/encrypt-home boolean false
 d-i grub-installer/only_debian boolean true
 d-i grub-installer/with_other_os boolean true
-d-i grub-installer/bootdev  string (hd0,0)
+d-i grub-installer/bootdev  string  {{install_drive}}
 d-i finish-install/reboot_in_progress note
 xserver-xorg xserver-xorg/autodetect_monitor boolean true
 xserver-xorg xserver-xorg/config/monitor/selection-method \

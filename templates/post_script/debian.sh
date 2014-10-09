@@ -20,6 +20,13 @@ echo "{{host.ssh_key.public_key}}" >> $SSH_DIR/authorized_keys
 chmod 600 $SSH_DIR/id_rsa
 {% endif %}
 
+apt-get install -y lvm2 git bridge-utils vim parted aptitude python-dev build-essential htop
+wget -O /opt/get-pip.py https://bootstrap.pypa.io/get-pip.py
+python /opt/get-pip.py
+pip install ansible==1.6.6
+echo "GRUB_RECORDFAIL_TIMEOUT=5" >> /etc/default/grub
+update-grub
+
 echo "{{host.hostname}}" > /etc/hostname
 curl http://{{site.webservice_host}}:{{site.webservice_port}}/api/host/{{host.id}} -H "Content-type: application/json" -d '{"local_boot": 1}' -X "PUT"
 curl http://{{site.webservice_host}}:{{site.webservice_port}}/api/host/{{host.id}}/puppet_sig -X "DELETE"
