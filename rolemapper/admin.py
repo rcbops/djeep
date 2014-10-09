@@ -122,3 +122,9 @@ class RoleMapAdmin(admin.ModelAdmin):
   list_editable = ('role', 'name')
 
 admin.site.register(models.RoleMap, RoleMapAdmin)
+
+
+class SSHKeyAdmin(admin.ModelAdmin):
+  list_display = ('name',)
+
+admin.site.register(models.SSHKey, SSHKeyAdmin)

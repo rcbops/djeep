@@ -48,9 +48,18 @@ class Host(models.Model):
   mgmt_ip = models.CharField(max_length=16, blank=True)
   vmnet_ip = models.CharField(max_length=16, blank=True)
 
+  ssh_key = models.ForeignKey('SSHKey', null=True, blank=True)
+
   def __str__(self):
     return self.hostname
 
+class SSHKey(models.Model):
+  name = models.CharField(max_length=255, unique = False)
+  private_key = models.TextField()
+  public_key = models.TextField()
+
+  def __str__(self):
+    return self.name
 
 class KickTarget(models.Model):
   name = models.CharField(max_length=40)
