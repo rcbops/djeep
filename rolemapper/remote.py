@@ -10,6 +10,7 @@ def _build_ipmi_command(host, *args):
   password = config.get('ipmi_password', settings.IPMI_PASSWORD)
   
   return  ['/usr/bin/ipmitool',
+           '-I', 'lanplus',
            '-H', host.ipmi_ip,
            '-U', user,
            '-P', password] + list(args)
