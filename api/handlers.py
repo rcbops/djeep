@@ -42,6 +42,33 @@ class HostHandler(handler.BaseHandler):
     allowed_methods = ('GET', 'PUT')
     model = models.Host
 
+class HostKicker(handler.BaseHandler):
+    allowed_methods = ('POST',)
+
+    def host_from_kwargs(self, kwargs):
+        query = {}
+        if 'id' in kwargs:
+            query['pk'] = kwargs['id']
+        elif 'name' in kwargs:
+            query['hostname__exact'] = kwargs['name']
+
+        host = models.Host.objects.get(**query)
+        return host
+
+    def create(self, request, **kwargs):
+        """ Rekick a single host """
+        host = self.host_from_kwargs(kwargs)
+        host.local_boot = False
+        host.save()
+        remote.pxe_reboot(host)
+
+class HostRebooter(HostKicker):
+
+    def create(self, request, **kwargs):
+        """ Reboot a single host """
+        host = self.host_from_kwargs(kwargs)
+        remote.reboot(host)
+
 
 class KickTargetHandler(handler.BaseHandler):
     exclude = ()
