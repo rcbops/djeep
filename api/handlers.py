@@ -63,7 +63,10 @@ class PuppetHandler(handler.BaseHandler):
 
 
 class ClusterHandler(handler.BaseHandler):
-    allowed_methods = ('BREW',)
+    allowed_methods = ('BREW', 'POST')
+
+    def create(self, request, **kwargs):
+        self.brew(request, **kwargs)
 
     def brew(self, request, **kwargs):
         """Redeploy a cluster."""
