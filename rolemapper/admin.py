@@ -58,7 +58,8 @@ admin.site.register(models.Cluster, ClusterAdmin)
 
 
 class HostAdmin(admin.ModelAdmin):
-  list_display = ('hostname',
+  list_display = ('id',
+                  'hostname',
                   'ip_address',
                   'ipmi_ip_link',
                   'mac_address',
