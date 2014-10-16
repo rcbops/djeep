@@ -34,10 +34,11 @@ def pxe_reboot(host, tries=5):
   command = _build_ipmi_command(host, 'chassis', 'bootdev', 'pxe')
   logging.info('Setting PXE Boot for: %s', host.hostname)
   logging.debug("Using command %s" % command)
+  host.local_boot=False
+  host.save()
   for i in xrange(tries):
     try:
         subprocess.check_call(command)
         reboot(host, tries=2)
     except Exception:
         logging.exception('in pxe_reboot host: %s', host.hostname)
-
