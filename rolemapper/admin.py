@@ -58,15 +58,17 @@ admin.site.register(models.Cluster, ClusterAdmin)
 
 
 class HostAdmin(admin.ModelAdmin):
-  list_display = ('hostname',
+  list_display = ('id',
+                  'hostname',
                   'ip_address',
                   'ipmi_ip_link',
                   'mac_address',
+                  'ssh_key',
                   'role',
                   'local_boot',
                   'kick_target',
                   'cluster_link')
-  list_editable = ('kick_target', 'role', 'local_boot')
+  list_editable = ('kick_target', 'role', 'local_boot', 'ssh_key')
   list_filter = ('cluster',)
   ordering = ['hostname']
   actions = ['reboot', 'pxe_reboot']
