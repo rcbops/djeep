@@ -96,8 +96,7 @@ class HostAdmin(admin.ModelAdmin):
 
   def pxe_reboot(self, request, queryset):
     for host in queryset:
-      for i in xrange(5):
-        remote.pxe_reboot(host)
+      remote.pxe_reboot(host)
 
     self.message_user(request, 'PXE Rebooted %s machines.' % len(queryset))
 

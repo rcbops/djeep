@@ -16,26 +16,28 @@ def _build_ipmi_command(host, *args):
            '-P', password] + list(args)
 
 
-def reboot(host):
+def reboot(host, tries=5):
   # 'reset' performs a cold reboot, which is necessary for pxe booting to work
   # 'cycle' was not sufficient
   command = _build_ipmi_command(host, 'power', 'reset')
   logging.info('Rebooting: %s', host.hostname)
   logging.debug("Using command %s" % command)
 
-  try:
-    subprocess.check_call(command)
-  except Exception:
-    logging.exception('in reboot host: %s', host.hostname)
+  for i in xrange(tries):
+    try:
+        subprocess.check_call(command)
+    except Exception:
+        logging.exception('in reboot host: %s', host.hostname)
 
 
-def pxe_reboot(host):
+def pxe_reboot(host, tries=5):
   command = _build_ipmi_command(host, 'chassis', 'bootdev', 'pxe')
   logging.info('Setting PXE Boot for: %s', host.hostname)
   logging.debug("Using command %s" % command)
-  try:
-    subprocess.check_call(command)
-  except Exception:
-    logging.exception('in pxe_reboot host: %s', host.hostname)
+  for i in xrange(tries):
+    try:
+        subprocess.check_call(command)
+        reboot(host, tries=2)
+    except Exception:
+        logging.exception('in pxe_reboot host: %s', host.hostname)
 
-  reboot(host)
