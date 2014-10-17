@@ -1,0 +1,100 @@
+d-i console-keymaps-at/keymap select us
+d-i keyboard-configuration/xkb-keymap select us
+d-i debian-installer/locale string en_US
+d-i console-setup/ask_detect boolean false
+d-i keyboard-configuration/layoutcode string us
+d-i netcfg/dhcp_timeout string 60
+d-i netcfg/disable_dhcp boolean true
+d-i netcfg/get_nameservers string {{ site.nameserver }}
+d-i netcfg/get_ipaddress string {{ host.ip_address }}
+d-i netcfg/get_netmask string {{ host.netmask }}
+d-i netcfg/get_gateway string {{ host.gateway }}
+d-i netcfg/confirm_static boolean true
+d-i netcfg/get_hostname string {{ host.hostname }}
+d-i netcfg/get_domain string {{ site.domainname }}
+d-i netcfg/choose_interface select auto
+d-i netcfg/wireless_wep string
+d-i mirror/country string manual
+d-i mirror/http/hostname string {{ ubuntu_mirror }}
+d-i mirror/http/directory string {{ ubuntu_directory }}
+d-i mirror/http/proxy string
+d-i passwd/root-password-crypted password {{ root_cryptpw }}
+d-i passwd/user-fullname string Default User
+d-i passwd/username string {{ default_username }}
+d-i passwd/user-password-crypted password {{ default_cryptpw }}
+d-i clock-setup/utc boolean false
+d-i time/zone string US/Central
+d-i clock-setup/ntp boolean true
+d-i partman-auto/expert_recipe string  \
+  custom :: \
+  5000 10000 5000 ext4 \
+    $primary{ } \
+    $bootable{ } \
+    method{ format } \
+    format{ } \
+    use_filesystem{ } \
+    filesystem{ ext4 } \
+    mountpoint{ /boot } . \
+ \
+  100000 100000 100000 ext4 \
+    method{ lvm } . \
+ \
+  100000 200000 100000 ext4 \
+    method{ keep } . \
+ \
+  400000 800000 -1 ext4 \
+    method{ keep } . \
+ \
+  4096 100000 50% linux-swap \
+    $defaultignore{ } \
+    $lvmok{ } \
+    lv_name{ swap } \
+    method{ swap } \
+    format{ } . \
+ \
+  50000 50000 100000 ext4 \
+    $defaultignore{ } \
+    $lvmok{ } \
+    lv_name{ root } \
+    method{ format } \
+    format{ } \
+    use_filesystem{ } \
+    filesystem{ ext4 } \
+    mountpoint{ / } .
+d-i partman-auto/disk string {{ install_drive }}
+d-i partman-auto/method string lvm
+d-i partman-basicmethods/method_only boolean false
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-md/device_remove_md boolean true
+d-i partman-lvm/confirm boolean true
+d-i partman-lvm/confirm_nooverwrite boolean true
+d-i partman-auto/choose_recipe select custom
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+d-i partman-md/confirm boolean true
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+d-i apt-setup/non-free boolean true
+d-i apt-setup/contrib boolean true
+tasksel tasksel/first multiselect
+d-i pkgsel/include string openssh-server
+popularity-contest popularity-contest/participate boolean false
+d-i finish-install/reboot_in_progress note
+d-i apt-setup/non-free boolean true
+d-i apt-setup/contrib boolean true
+d-i user-setup/encrypt-home boolean false
+d-i grub-installer/only_debian boolean true
+d-i grub-installer/with_other_os boolean true
+d-i grub-installer/bootdev  string {{ install_drive }}
+d-i finish-install/reboot_in_progress note
+xserver-xorg xserver-xorg/autodetect_monitor boolean true
+xserver-xorg xserver-xorg/config/monitor/selection-method \
+       select medium
+xserver-xorg xserver-xorg/config/monitor/mode-list \
+       select 1024x768 @ 60 Hz
+cdrom-detect/eject boolean false
+d-i preseed/late_command string apt-install curl; in-target sh -c 'curl -skS http://{{site.webservice_host}}:{{site.webservice_port}}/post_script/{{host.id}} | /bin/sh'
