@@ -25,9 +25,17 @@ d-i passwd/user-password-crypted password {{ default_cryptpw }}
 d-i clock-setup/utc boolean false
 d-i time/zone string US/Central
 d-i clock-setup/ntp boolean true
+d-i partman-basicfilesystems/choose_label string gpt
+d-i partman-basicfilesystems/default_label string gpt
+d-i partman-partitioning/choose_label string gpt
+d-i partman-partitioning/default_label string gpt
+d-i partman/choose_label string gpt
+d-i partman/default_label string gpt
+partman-partitioning partman-partitioning/choose_label select gpt
 d-i partman-auto/expert_recipe string  \
   custom :: \
   5000 10000 5000 ext4 \
+    $gptonly{} \
     $primary{ } \
     $bootable{ } \
     method{ format } \
@@ -37,12 +45,15 @@ d-i partman-auto/expert_recipe string  \
     mountpoint{ /boot } . \
  \
   100000 100000 100000 ext4 \
+    $gptonly{} \
     method{ lvm } . \
  \
   100000 200000 100000 ext4 \
+    $gptonly{} \
     method{ keep } . \
  \
-  400000 800000 -1 ext4 \
+  200000 800000 -1 ext4 \
+    $gptonly{} \
     method{ keep } . \
  \
   4096 100000 50% linux-swap \
