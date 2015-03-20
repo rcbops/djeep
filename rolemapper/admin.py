@@ -58,15 +58,17 @@ admin.site.register(models.Cluster, ClusterAdmin)
 
 
 class HostAdmin(admin.ModelAdmin):
-  list_display = ('hostname',
+  list_display = ('id',
+                  'hostname',
                   'ip_address',
                   'ipmi_ip_link',
                   'mac_address',
+                  'ssh_key',
                   'role',
                   'local_boot',
                   'kick_target',
                   'cluster_link')
-  list_editable = ('kick_target', 'role', 'local_boot')
+  list_editable = ('kick_target', 'role', 'local_boot', 'ssh_key')
   list_filter = ('cluster',)
   ordering = ['hostname']
   actions = ['reboot', 'pxe_reboot']
@@ -94,8 +96,7 @@ class HostAdmin(admin.ModelAdmin):
 
   def pxe_reboot(self, request, queryset):
     for host in queryset:
-      for i in xrange(5):
-        remote.pxe_reboot(host)
+      remote.pxe_reboot(host)
 
     self.message_user(request, 'PXE Rebooted %s machines.' % len(queryset))
 

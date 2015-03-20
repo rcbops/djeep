@@ -25,14 +25,61 @@ d-i passwd/user-password-crypted password {{ default_cryptpw }}
 d-i clock-setup/utc boolean false
 d-i time/zone string US/Central
 d-i clock-setup/ntp boolean true
-d-i partman/unmount_active boolean true
+d-i partman-basicfilesystems/choose_label string gpt
+d-i partman-basicfilesystems/default_label string gpt
+d-i partman-partitioning/choose_label string gpt
+d-i partman-partitioning/default_label string gpt
+d-i partman/choose_label string gpt
+d-i partman/default_label string gpt
+partman-partitioning partman-partitioning/choose_label select gpt
+d-i partman-auto/expert_recipe string  \
+  custom :: \
+  5000 10000 5000 ext4 \
+    $gptonly{} \
+    $primary{ } \
+    $bootable{ } \
+    method{ format } \
+    format{ } \
+    use_filesystem{ } \
+    filesystem{ ext4 } \
+    mountpoint{ /boot } . \
+ \
+  100000 100000 100000 ext4 \
+    $gptonly{} \
+    method{ lvm } . \
+ \
+  100000 200000 100000 ext4 \
+    $gptonly{} \
+    method{ keep } . \
+ \
+  200000 800000 -1 ext4 \
+    $gptonly{} \
+    method{ keep } . \
+ \
+  4096 100000 50% linux-swap \
+    $defaultignore{ } \
+    $lvmok{ } \
+    lv_name{ swap } \
+    method{ swap } \
+    format{ } . \
+ \
+  50000 50000 100000 ext4 \
+    $defaultignore{ } \
+    $lvmok{ } \
+    lv_name{ root } \
+    method{ format } \
+    format{ } \
+    use_filesystem{ } \
+    filesystem{ ext4 } \
+    mountpoint{ / } .
 d-i partman-auto/disk string {{ install_drive }}
 d-i partman-auto/method string lvm
+d-i partman-basicmethods/method_only boolean false
 d-i partman-lvm/device_remove_lvm boolean true
 d-i partman-md/device_remove_md boolean true
 d-i partman-lvm/confirm boolean true
 d-i partman-lvm/confirm_nooverwrite boolean true
-d-i partman-auto/choose_recipe select atomic
+d-i partman-auto/choose_recipe select custom
 d-i partman-partitioning/confirm_write_new_label boolean true
 d-i partman/choose_partition select finish
 d-i partman/confirm boolean true
@@ -53,7 +100,7 @@ d-i apt-setup/contrib boolean true
 d-i user-setup/encrypt-home boolean false
 d-i grub-installer/only_debian boolean true
 d-i grub-installer/with_other_os boolean true
-d-i grub-installer/bootdev  string  {{install_drive}}
+d-i grub-installer/bootdev  string {{ install_drive }}
 d-i finish-install/reboot_in_progress note
 xserver-xorg xserver-xorg/autodetect_monitor boolean true
 xserver-xorg xserver-xorg/config/monitor/selection-method \

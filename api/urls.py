@@ -8,6 +8,12 @@ from djeep.api import handlers
 host_handler = resource.Resource(handlers.HostHandler)
 host_handler = csrf.csrf_exempt(host_handler)
 
+host_kicker = resource.Resource(handlers.HostKicker)
+host_kicker = csrf.csrf_exempt(host_kicker)
+
+host_rebooter = resource.Resource(handlers.HostRebooter)
+host_rebooter = csrf.csrf_exempt(host_rebooter)
+
 kick_handler = resource.Resource(handlers.KickTargetHandler)
 kick_handler = csrf.csrf_exempt(kick_handler)
 
@@ -20,6 +26,10 @@ cluster_handler = csrf.csrf_exempt(cluster_handler)
 urlpatterns = patterns('',
     url(r'^clusterbyname/(?P<name>[^/]+)$', cluster_handler),
     url(r'^cluster/(?P<id>\d+)$', cluster_handler),
+    url(r'^host/(?P<id>\d+)/rekick$', host_kicker),
+    url(r'^hostbyname/(?P<name>[^/]+)/rekick$', host_kicker),
+    url(r'^host/(?P<id>\d+)/reboot$', host_rebooter),
+    url(r'^hostbyname/(?P<name>[^/]+)/reboot$', host_rebooter),
     url(r'^host/(?P<id>\d+)/puppet_sig$', puppet_handler),
     url(r'^host/(?P<id>\d+)$', host_handler),
     url(r'^host/', host_handler),
