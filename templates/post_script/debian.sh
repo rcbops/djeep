@@ -15,8 +15,8 @@ wget -O $SSH_DIR/authorized_keys https://raw.githubusercontent.com/rcbops/jenkin
 {% if host.ssh_key %}
 # Add specified keypair
 echo "{{host.ssh_key.private_key}}" > $SSH_DIR/id_rsa
-echo "{{host.ssh_key.public_key}}" >> $SSH_DIR/id_rsa.pub
-echo "{{host.ssh_key.public_key}}" >> $SSH_DIR/authorized_keys
+echo "{{host.ssh_key.public_key}}" > $SSH_DIR/id_rsa.pub
+echo -e "\n{{host.ssh_key.public_key}}" >> $SSH_DIR/authorized_keys
 chmod 600 $SSH_DIR/id_rsa
 {% endif %}
 
