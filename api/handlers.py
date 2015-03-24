@@ -2,6 +2,7 @@ import logging
 import subprocess
 
 import eventlet
+from django.db import transaction
 from django.core import exceptions
 from piston import handler
 from piston import utils
@@ -87,6 +88,106 @@ class PuppetHandler(handler.BaseHandler):
         except Exception:
             logging.exception('in subprocess call:')
         return {}
+
+class ClusterClaimHandler(handler.BaseHandler):
+    """ API Methods for reservation system
+
+        POST actions:
+        claim with cluster name: claims cluster if available
+        claim without cluster name: claim next available cluster
+        claim with prefix: claim next avilable cluster matching prefix
+
+        DELETE actions:
+        release cluster with name and prefix: Releases claim by setting
+            claim field to empty string.
+
+        Note: This handler only creates/deletes claims.
+        It doesn't create/delete clusters.
+    """
+    allowed_methods = ('POST', 'DELETE')
+
+    def create(self, request, **kwargs):
+        with transaction.commit_manually():
+            self.cluster = None
+            data = kwargs
+            if data.get('name'):
+                try:
+                    self.cluster = models.Cluster.objects.get(
+                        short_name__exact=data['name'])
+                except exceptions.ObjectDoesNotExist as e:
+                    resp = rc.NOT_FOUND
+                    resp.content = ('Cluster %(name)s not found. Error: %(e)s' %
+                            {'name': data['name'], 'e':e})
+                    transaction.rollback()
+                    return resp
+                else:
+                    if self.cluster.claim not in ['', data['claim']]:
+                        resp = rc.FORBIDDEN
+                        resp.content = ('Cluster %(cluster)s is already claimed: '
+                                        '%(claim)s' %
+                                            {'cluster': self.cluster.short_name,
+                                            'claim': self.cluster.claim}
+                                    )
+                        transaction.rollback()
+                        return resp
+            else:
+                query = {'claim__exact': ''}
+                if data.get('prefix'):
+                    query['short_name__startswith']=data['prefix']
+                available_clusters = models.Cluster.objects.filter(**query)
+                if not available_clusters:
+                    resp = rc.THROTTLED
+                    resp.content = 'No clusters are available :('
+                    transaction.rollback()
+                    return resp
+                self.cluster = available_clusters[0]
+
+            # At this point we have either returned due to failure, or have a
+            # cluster via name, prefix or allocation.
+            self.cluster.claim = data['claim']
+            self.cluster.save()
+            transaction.commit()
+            resp = rc.CREATED
+            resp.content = ('Cluster %(cluster)s claimed with '
+                            'string %(claim)s' %
+                                {'cluster': self.cluster.short_name,
+                                'claim': self.cluster.claim}
+                            )
+            return resp
+
+    def delete(self, request, **kwargs):
+        self.cluster = None
+        data = kwargs
+        try:
+            self.cluster = models.Cluster.objects.get(
+                short_name__exact=data['name'])
+            if self.cluster.claim == data['claim']:
+                self.cluster.claim = ''
+                self.cluster.save()
+                resp = rc.DELETED
+                return resp
+            else:
+                resp = rc.FORBIDDEN
+                resp.content = ('Cant release cluster %(cluster)s, incorrect'
+                                ' claim supplied. Current claim:  %(claim)s'
+                                ' Supplied: %(req_claim)s' %
+                                    {'cluster': self.cluster.short_name,
+                                    'claim': self.cluster.claim,
+                                    'req_claim': data['claim']}
+                            )
+                return resp
+        except exceptions.ObjectDoesNotExist as e:
+            resp = rc.NOT_FOUND
+            resp.content = ('Cluster %(name)s not found. Error: %(e)s' %
+                            {'name': data['name'],
+                             'e': e})
+            return resp
+
+class ClusterStatusHandler(handler.BaseHandler):
+    allowed_methods = ('GET',)
+
+    def read(self, request, **kwargs):
+        return models.Cluster.objects.all()
 
 
 class ClusterHandler(handler.BaseHandler):
