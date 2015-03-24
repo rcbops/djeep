@@ -23,7 +23,18 @@ puppet_handler = csrf.csrf_exempt(puppet_handler)
 cluster_handler = resource.Resource(handlers.ClusterHandler)
 cluster_handler = csrf.csrf_exempt(cluster_handler)
 
+cluster_claim_handler = resource.Resource(handlers.ClusterClaimHandler)
+cluster_claim_handler = csrf.csrf_exempt(cluster_claim_handler)
+
+cluster_status_handler = resource.Resource(handlers.ClusterStatusHandler)
+cluster_status_handler = csrf.csrf_exempt(cluster_status_handler)
+
 urlpatterns = patterns('',
+    url(r'^cluster/claim/(?P<claim>[^/]*)/prefix/(?P<prefix>[^/]+)/?$',
+        cluster_claim_handler),
+    url(r'^cluster/claim/(?P<claim>[^/]*)(/(?P<name>[^/]+)?)?/?$',
+        cluster_claim_handler),
+    url(r'^clusters/?', cluster_status_handler, {'emitter_format': 'json'}),
     url(r'^clusterbyname/(?P<name>[^/]+)$', cluster_handler),
     url(r'^cluster/(?P<id>\d+)$', cluster_handler),
     url(r'^host/(?P<id>\d+)/rekick$', host_kicker),
